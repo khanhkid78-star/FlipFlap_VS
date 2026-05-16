@@ -1,10 +1,4 @@
-// js/app-supabase.js
-// Flip Flash - Frontend Controller
-//
-// HTML cần nạp theo thứ tự:
-// <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-// <script src="./js/supabase-config.js"></script>
-// <script src="./js/app-supabase.js"></script>
+
 
 let currentSession = null;
 let currentUser = null;
