@@ -121,7 +121,6 @@
         </button>
       </section>
 
-      <!-- Vùng render danh sách Deck -->
       <section id="decksGrid" class="ff-grid"></section>
     </div>
   </main>
@@ -157,6 +156,7 @@
           <p>Sign in or create an account to continue.</p>
         </div>
       </div>
+
       <div class="ff-grid-2">
         <form id="loginForm">
           <h3>Sign In</h3>
@@ -168,7 +168,9 @@
             <label>Password</label>
             <input id="loginPassword" type="password" required/>
           </div>
-          <button class="ff-btn ff-btn-primary" type="submit" style="width:100%;">Sign In</button>
+          <button class="ff-btn ff-btn-primary" type="submit" style="width:100%;">
+            Sign In
+          </button>
         </form>
 
         <form id="signupForm">
@@ -185,7 +187,9 @@
             <label>Password</label>
             <input id="signupPassword" type="password" required/>
           </div>
-          <button class="ff-btn ff-btn-tonal" type="submit" style="width:100%;">Create Account</button>
+          <button class="ff-btn ff-btn-tonal" type="submit" style="width:100%;">
+            Create Account
+          </button>
         </form>
       </div>
     </div>
@@ -226,8 +230,12 @@
         </div>
 
         <div class="ff-actions">
-          <button type="button" data-modal-close="createDeckModal" class="ff-btn ff-btn-soft">Cancel</button>
-          <button id="createDeckBtn" type="submit" class="ff-btn ff-btn-primary">Create Deck</button>
+          <button type="button" data-modal-close="createDeckModal" class="ff-btn ff-btn-soft">
+            Cancel
+          </button>
+          <button id="createDeckBtn" type="submit" class="ff-btn ff-btn-primary">
+            Create Deck
+          </button>
         </div>
       </form>
     </div>
@@ -241,9 +249,14 @@
           <p id="deleteModalText">This action cannot be undone.</p>
         </div>
       </div>
+
       <div class="ff-actions">
-        <button type="button" data-modal-close="deleteModal" class="ff-btn ff-btn-soft">Cancel</button>
-        <button id="confirmDeleteBtn" type="button" class="ff-btn ff-btn-danger">Delete Deck</button>
+        <button type="button" data-modal-close="deleteModal" class="ff-btn ff-btn-soft">
+          Cancel
+        </button>
+        <button id="confirmDeleteBtn" type="button" class="ff-btn ff-btn-danger">
+          Delete Deck
+        </button>
       </div>
     </div>
   </div>
@@ -251,6 +264,5 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./js/supabase-config.js"></script>
   <script src="./js/app-supabase.js"></script>
-  <script src="./js/decks-logic.js"></script>
 </body>
 </html>
