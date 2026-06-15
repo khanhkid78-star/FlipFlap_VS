@@ -1944,18 +1944,6 @@ function renderCards(cards) {
   `;
 
   container.appendChild(empty);
-  } else {
-    cards.forEach((card, index) => {
-      const row = document.createElement("article");
-      row.className = "ff-card-row";
-      row.dataset.cardId = card.id;
-
-      // giữ nguyên toàn bộ code render card cũ
-      // từ if (isBulkEditMode) { ... } else { ... }
-
-      container.appendChild(row);
-    });
-  }
 
   cards.forEach((card, index) => {
     const row = document.createElement("article");
