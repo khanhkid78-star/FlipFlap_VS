@@ -1,9 +1,9 @@
 
-
 let currentSession = null;
 let currentUser = null;
 
 let allDeckCache = [];
+let currentDeckBundleCache = null;
 
 let studyCards = [];
 let currentCardIndex = 0;
@@ -1313,8 +1313,75 @@ if (editSetForm && editSetForm.dataset.bound !== "true") {
 async function loadDeckBundleAndRender(deckId) {
   const result = await getDeckBundle(deckId);
 
+  currentDeckBundleCache = {
+    deck: result.deck,
+    folders: result.folders || [],
+    sets: result.sets || [],
+  };
+
   renderDeckHeader(result.deck);
   renderFoldersAndSets(result.deck, result.folders || [], result.sets || []);
+  bindDeckDetailsSearch();
+}
+
+function bindDeckDetailsSearch() {
+  const input = document.getElementById("deckDetailSearchInput");
+
+  if (!input) return;
+  if (input.dataset.bound === "true") return;
+
+  input.dataset.bound = "true";
+
+  input.addEventListener("input", () => {
+    const keyword = input.value.trim().toLowerCase();
+
+    if (!currentDeckBundleCache) return;
+
+    const { deck, folders, sets } = currentDeckBundleCache;
+
+    if (!keyword) {
+      renderFoldersAndSets(deck, folders, sets);
+      return;
+    }
+
+    const matchedFolders = folders.filter((folder) => {
+      return (
+        folder.name?.toLowerCase().includes(keyword) ||
+        folder.description?.toLowerCase().includes(keyword)
+      );
+    });
+
+    const matchedSets = sets.filter((set) => {
+      return (
+        set.name?.toLowerCase().includes(keyword) ||
+        set.description?.toLowerCase().includes(keyword)
+      );
+    });
+
+    const matchedFolderIds = new Set([
+      ...matchedFolders.map((folder) => String(folder.id)),
+      ...matchedSets.map((set) => String(set.folder_id)),
+    ]);
+
+    const filteredFolders = folders.filter((folder) =>
+      matchedFolderIds.has(String(folder.id))
+    );
+
+    const filteredSets = sets.filter((set) =>
+      matchedFolderIds.has(String(set.folder_id))
+    );
+
+    renderFoldersAndSets(deck, filteredFolders, filteredSets);
+
+    // Khi search thì mở tất cả folder đang hiển thị ra
+    document.querySelectorAll("[data-folder-body]").forEach((body) => {
+      body.classList.remove("is-collapsed");
+    });
+
+    document.querySelectorAll("[data-folder-chevron] .material-symbols-outlined").forEach((icon) => {
+      icon.textContent = "expand_less";
+    });
+  });
 }
 
 function renderDeckHeader(deck) {
@@ -1828,11 +1895,43 @@ async function initCardsPage() {
 
 async function loadCardsAndRender(setId) {
   const result = await listCards(setId);
-  renderCards(result.cards || []);
+
+  allCardsCache = result.cards || [];
+
+  renderCards(allCardsCache);
+  bindCardSearch();
+}
+
+function bindCardSearch() {
+  const input = document.getElementById("cardSearchInput");
+
+  if (!input) return;
+  if (input.dataset.bound === "true") return;
+
+  input.dataset.bound = "true";
+
+  input.addEventListener("input", () => {
+    const keyword = input.value.trim().toLowerCase();
+
+    if (!keyword) {
+      renderCards(allCardsCache);
+      return;
+    }
+
+    const filteredCards = allCardsCache.filter((card) => {
+      const question = card.question || "";
+      const answer = card.answer || "";
+
+      return `${question} ${answer}`.toLowerCase().includes(keyword);
+    });
+
+    renderCards(filteredCards);
+  });
 }
 
 let isBulkEditMode = false;
 let currentRenderedCards = [];
+let allCardsCache = [];
 
 function renderCards(cards) {
   currentRenderedCards = cards;
