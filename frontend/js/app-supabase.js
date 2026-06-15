@@ -2251,6 +2251,8 @@ async function initRecentPage() {
     document.getElementById("recentList") ||
     document.getElementById("sessionsList");
 
+  const searchInput = document.getElementById("recentSearchInput");
+
   if (!container) return;
 
   container.className = "ff-recent-list";
@@ -2275,57 +2277,77 @@ async function initRecentPage() {
     const result = await api("listRecent");
     const sessions = result.sessions || [];
 
-    container.innerHTML = "";
+    function renderRecent(filteredSessions) {
+      container.innerHTML = "";
 
-    if (!sessions.length) {
-      container.innerHTML = `
-        <div class="ff-card">
-          <h3 style="margin:0 0 8px;font-size:24px;font-weight:800;">
-            Chưa có phiên học nào
-          </h3>
-          <p style="margin:0;color:var(--on-surface-variant);">
-            Hãy bắt đầu học một set để xem lịch sử tại đây.
-          </p>
-        </div>
-      `;
-      return;
+      if (!filteredSessions.length) {
+        container.innerHTML = `
+          <div class="ff-card">
+            <h3 style="margin:0 0 8px;font-size:24px;font-weight:800;">
+              Không tìm thấy phiên học nào
+            </h3>
+            <p style="margin:0;color:var(--on-surface-variant);">
+              Thử tìm bằng tên deck hoặc tên set khác.
+            </p>
+          </div>
+        `;
+        return;
+      }
+
+      filteredSessions.forEach((session) => {
+        const item = document.createElement("article");
+        item.className = "ff-recent-item";
+
+        const deckName = session.decks?.name || "Unknown deck";
+        const setName = session.sets?.name || "All cards";
+
+        const studied = Number(session.cards_studied || 0);
+        const correct = Number(session.cards_correct || 0);
+        const incorrect = Number(session.cards_incorrect || 0);
+        const xp = Number(session.xp_earned || 0);
+
+        item.innerHTML = `
+          <div class="ff-recent-icon">
+            <span class="material-symbols-outlined">history_edu</span>
+          </div>
+
+          <div>
+            <h3 class="ff-recent-title">
+              ${safeText(deckName)} / ${safeText(setName)}
+            </h3>
+
+            <p class="ff-recent-meta">
+              ${studied} cards · ${correct} correct · ${incorrect} incorrect
+            </p>
+          </div>
+
+          <div class="ff-recent-score">
+            <p class="ff-recent-time">${timeAgo(session.started_at)}</p>
+            <p class="ff-recent-xp">+${xp} XP</p>
+          </div>
+        `;
+
+        container.appendChild(item);
+      });
     }
 
-    sessions.forEach((session) => {
-      const item = document.createElement("article");
-      item.className = "ff-recent-item";
+    renderRecent(sessions);
 
-      const deckName = session.decks?.name || "Unknown deck";
-      const setName = session.sets?.name || "Unknown set";
+    if (searchInput) {
+      searchInput.addEventListener("input", () => {
+        const keyword = searchInput.value.trim().toLowerCase();
 
-      const studied = Number(session.cards_studied || 0);
-      const correct = Number(session.cards_correct || 0);
-      const incorrect = Number(session.cards_incorrect || 0);
-      const xp = Number(session.xp_earned || 0);
+        const filtered = sessions.filter((session) => {
+          const deckName = session.decks?.name || "";
+          const setName = session.sets?.name || "";
+          const text = `${deckName} ${setName}`.toLowerCase();
 
-      item.innerHTML = `
-        <div class="ff-recent-icon">
-          <span class="material-symbols-outlined">history_edu</span>
-        </div>
+          return text.includes(keyword);
+        });
 
-        <div>
-          <h3 class="ff-recent-title">
-            ${safeText(deckName)} / ${safeText(setName)}
-          </h3>
-
-          <p class="ff-recent-meta">
-            ${studied} cards · ${correct} correct · ${incorrect} incorrect
-          </p>
-        </div>
-
-        <div class="ff-recent-score">
-          <p class="ff-recent-time">${timeAgo(session.started_at)}</p>
-          <p class="ff-recent-xp">+${xp} XP</p>
-        </div>
-      `;
-
-      container.appendChild(item);
-    });
+        renderRecent(filtered);
+      });
+    }
   } catch (err) {
     container.innerHTML = `
       <div class="ff-card">
