@@ -19,7 +19,8 @@ let isAnswerShown = false;
 
 document.addEventListener("DOMContentLoaded", async () => {
   bindCommonEvents();
-
+  bindAuthTabs();
+  
   try {
     currentSession = await getSessionOrNull();
 
@@ -237,6 +238,27 @@ function openModal(id) {
 // ============================================================
 // AUTH
 // ============================================================
+
+function bindAuthTabs() {
+  const loginTab = document.getElementById("showLoginTab");
+  const signupTab = document.getElementById("showSignupTab");
+
+  const loginPanel = document.getElementById("loginPanel");
+  const signupPanel = document.getElementById("signupPanel");
+
+  if (!loginTab || !signupTab) return;
+
+  function switchTab(isLogin) {
+    loginTab.classList.toggle("active", isLogin);
+    signupTab.classList.toggle("active", !isLogin);
+
+    loginPanel.classList.toggle("hidden", !isLogin);
+    signupPanel.classList.toggle("hidden", isLogin);
+  }
+
+  loginTab.addEventListener("click", () => switchTab(true));
+  signupTab.addEventListener("click", () => switchTab(false));
+}
 
 async function signIn(email, password) {
   const { data, error } = await supabaseClient.auth.signInWithPassword({

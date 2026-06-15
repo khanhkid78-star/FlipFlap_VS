@@ -9,6 +9,104 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="./css/flipflash-ui.css"/>
+  <style>
+    .ff-auth-panel {
+      max-width: 460px;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .ff-auth-hero {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 28px 28px 20px;
+      background:
+        radial-gradient(circle at top right, var(--primary-container), transparent 58%),
+        var(--surface-lowest);
+      border-bottom: 1px solid var(--outline-variant);
+    }
+
+    .ff-auth-logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary-container);
+      color: var(--primary);
+      flex: 0 0 auto;
+    }
+
+    .ff-auth-logo .material-symbols-outlined {
+      font-size: 32px;
+    }
+
+    .ff-auth-hero h3 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.2;
+      font-weight: 800;
+      color: var(--on-surface);
+    }
+
+    .ff-auth-hero p:last-child {
+      margin: 6px 0 0;
+      color: var(--on-surface-variant);
+    }
+
+    .ff-auth-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 22px 28px 0;
+      padding: 6px;
+      border-radius: 999px;
+      background: var(--surface-container);
+      border: 1px solid var(--outline-variant);
+    }
+
+    .ff-auth-tabs button {
+      min-height: 42px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--on-surface-variant);
+      font-weight: 800;
+      transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .ff-auth-tabs button.active {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 6px 18px rgba(153, 71, 0, 0.22);
+    }
+
+    .ff-auth-panel-body {
+      padding: 24px 28px 28px;
+    }
+
+    @media (max-width: 560px) {
+      .ff-auth-panel {
+        max-width: 100%;
+      }
+
+      .ff-auth-hero {
+        align-items: flex-start;
+        padding: 24px 22px 18px;
+      }
+
+      .ff-auth-tabs {
+        margin-left: 22px;
+        margin-right: 22px;
+      }
+
+      .ff-auth-panel-body {
+        padding: 22px;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -149,43 +247,56 @@
   </nav>
 
   <div id="authModal" class="ff-modal hidden">
-    <div class="ff-modal-panel ff-modal-wide">
-      <div class="ff-modal-head">
+    <div class="ff-modal-panel ff-auth-panel">
+      <div class="ff-auth-hero">
+        <div class="ff-auth-logo">
+          <span class="material-symbols-outlined">school</span>
+        </div>
         <div>
-          <h3>Welcome to Flip Flash</h3>
-          <p>Sign in or create an account to continue.</p>
+          <p class="ff-kicker">Flip Flash</p>
+          <h3>Welcome back</h3>
+          <p>Sign in or create an account to continue learning.</p>
         </div>
       </div>
 
-      <div class="ff-grid-2">
+      <div class="ff-auth-tabs" role="tablist" aria-label="Authentication tabs">
+        <button id="showLoginTab" class="active" type="button" role="tab" aria-selected="true" aria-controls="loginPanel">
+          Sign In
+        </button>
+        <button id="showSignupTab" type="button" role="tab" aria-selected="false" aria-controls="signupPanel">
+          Create Account
+        </button>
+      </div>
+
+      <div id="loginPanel" class="ff-auth-panel-body" role="tabpanel" aria-labelledby="showLoginTab">
         <form id="loginForm">
-          <h3>Sign In</h3>
           <div class="ff-field">
             <label>Email</label>
-            <input id="loginEmail" type="email" required/>
+            <input id="loginEmail" type="email" required placeholder="you@example.com"/>
           </div>
           <div class="ff-field">
             <label>Password</label>
-            <input id="loginPassword" type="password" required/>
+            <input id="loginPassword" type="password" required placeholder="Enter your password"/>
           </div>
           <button class="ff-btn ff-btn-primary" type="submit" style="width:100%;">
             Sign In
           </button>
         </form>
+      </div>
 
+      <div id="signupPanel" class="ff-auth-panel-body hidden" role="tabpanel" aria-labelledby="showSignupTab">
         <form id="signupForm">
-          <h3>Create Account</h3>
           <div class="ff-field">
             <label>Username</label>
-            <input id="signupUsername" type="text"/>
+            <input id="signupUsername" type="text" placeholder="Your display name"/>
           </div>
           <div class="ff-field">
             <label>Email</label>
-            <input id="signupEmail" type="email" required/>
+            <input id="signupEmail" type="email" required placeholder="you@example.com"/>
           </div>
           <div class="ff-field">
             <label>Password</label>
-            <input id="signupPassword" type="password" required/>
+            <input id="signupPassword" type="password" required placeholder="Create a password"/>
           </div>
           <button class="ff-btn ff-btn-tonal" type="submit" style="width:100%;">
             Create Account

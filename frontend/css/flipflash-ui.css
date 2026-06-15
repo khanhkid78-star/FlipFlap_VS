@@ -1584,3 +1584,31 @@ a {
     justify-self: start;
   }
 }
+
+
+.ff-auth-tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:20px;
+}
+
+.ff-auth-tabs button{
+  flex:1;
+  border:none;
+  border-radius:14px;
+  padding:12px;
+  font-weight:700;
+  background:var(--surface-container);
+  color:var(--on-surface);
+}
+
+.ff-auth-tabs button.active{
+  background:var(--primary);
+  color:white;
+}
+
+.ff-auth-card{
+  width:100%;
+  max-width:420px;
+  margin:auto;
+}
