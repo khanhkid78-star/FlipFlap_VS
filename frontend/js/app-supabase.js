@@ -1509,13 +1509,6 @@ function renderFoldersAndSets(deck, folders, sets) {
                         </p>
 
                         <div class="ff-set-actions">
-                            <button
-                            type="button"
-                            class="ff-btn ff-btn-soft"
-                            data-open-cards="${set.id}"
-                            data-folder-id="${folder.id}">
-                            Cards
-                            </button>
 
                             <button
                             type="button"
