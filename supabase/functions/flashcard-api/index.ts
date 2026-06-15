@@ -540,46 +540,51 @@ Deno.serve(async (req) => {
     // ========================================================
 
     if (action === "startStudy") {
-      const { deckId, setId } = body;
+    const { deckId, setId } = body;
 
-      if (!deckId || !setId) {
-        return json({ error: "deckId and setId are required" }, 400);
-      }
+    if (!deckId) {
+      return json({ error: "deckId is required" }, 400);
+    }
 
-      await assertDeckOwner(supabaseAdmin, userId, deckId);
+    await assertDeckOwner(supabaseAdmin, userId, deckId);
 
-      const { data: cards, error: cardError } = await supabaseAdmin
-        .from("cards")
-        .select("*")
-        .eq("set_id", setId)
-        .eq("deck_id", deckId)
-        .eq("user_id", userId)
-        .order("next_review_at", { ascending: true, nullsFirst: true })
-        .order("created_at", { ascending: true });
+    let cardQuery = supabaseAdmin
+      .from("cards")
+      .select("*")
+      .eq("deck_id", deckId)
+      .eq("user_id", userId)
+      .order("next_review_at", { ascending: true, nullsFirst: true })
+      .order("created_at", { ascending: true });
 
-      if (cardError) throw cardError;
+    if (setId) {
+      cardQuery = cardQuery.eq("set_id", setId);
+    }
 
-      const { data: session, error: sessionError } = await supabaseAdmin
-        .from("study_sessions")
-        .insert({
-          user_id: userId,
-          deck_id: deckId,
-          set_id: setId,
-          cards_studied: 0,
-          cards_correct: 0,
-          cards_incorrect: 0,
-          duration_seconds: 0,
-          xp_earned: 0,
-          started_at: new Date().toISOString(),
-        })
-        .select()
-        .single();
+    const { data: cards, error: cardError } = await cardQuery;
 
-      if (sessionError) throw sessionError;
+    if (cardError) throw cardError;
 
-      return json({
-        session,
-        cards: cards || [],
+    const { data: session, error: sessionError } = await supabaseAdmin
+      .from("study_sessions")
+      .insert({
+        user_id: userId,
+        deck_id: deckId,
+        set_id: setId || null,
+        cards_studied: 0,
+        cards_correct: 0,
+        cards_incorrect: 0,
+        duration_seconds: 0,
+        xp_earned: 0,
+        started_at: new Date().toISOString(),
+      })
+      .select()
+      .single();
+
+    if (sessionError) throw sessionError;
+
+    return json({
+      session,
+      cards: cards || [],
       });
     }
 

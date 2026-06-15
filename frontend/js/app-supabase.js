@@ -2023,8 +2023,8 @@ async function initStudySession() {
   const deckId = getParam("deckId");
   const setId = getParam("setId");
 
-  if (!deckId || !setId) {
-    showToast("Thiếu deckId hoặc setId.", "error");
+  if (!deckId) {
+    showToast("No deckId.", "error");
     window.location.href = "decks.html";
     return;
   }
