@@ -1944,6 +1944,7 @@ function renderCards(cards) {
   `;
 
   container.appendChild(empty);
+  }
 
   cards.forEach((card, index) => {
     const row = document.createElement("article");
