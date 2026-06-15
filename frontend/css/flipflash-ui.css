@@ -1581,9 +1581,9 @@ a {
 }
 
 .ff-set-meta {
-  margin: auto 0 18px;
+  margin: 0;
   color: var(--on-surface-variant);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .ff-set-actions {
