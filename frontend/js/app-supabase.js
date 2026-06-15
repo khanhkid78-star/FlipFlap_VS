@@ -1685,6 +1685,36 @@ function renderFoldersAndSets(deck, folders, sets) {
 // CARDS - cards.html
 // ============================================================
 
+async function renderCardsPageHeader(deckId, folderId, setId) {
+  try {
+    const result = await getDeckBundle(deckId);
+
+    const folder = (result.folders || []).find(
+      (item) => String(item.id) === String(folderId)
+    );
+
+    const set = (result.sets || []).find(
+      (item) => String(item.id) === String(setId)
+    );
+
+    const folderLink = document.getElementById("cardsFolderLink");
+    const setTitle = document.getElementById("cardsSetTitle");
+
+    if (folderLink) {
+      folderLink.textContent = folder?.name || "Folder";
+      folderLink.href = `deck-details.html?id=${deckId}&folderId=${folderId}`;
+      folderLink.title = "Back to folder";
+    }
+
+    if (setTitle) {
+      setTitle.textContent = set?.name || "Set";
+    }
+  } catch (err) {
+    console.warn("Cannot load cards page header:", err);
+  }
+}
+
+
 async function initCardsPage() {
   const deckId = getParam("deckId");
   const folderId = getParam("folderId");
@@ -1752,6 +1782,7 @@ async function initCardsPage() {
         }
 
         closeModal("createCardModal");
+        await renderCardsPageHeader(deckId, folderId, setId);
 
         await loadCardsAndRender(setId);
       } catch (err) {

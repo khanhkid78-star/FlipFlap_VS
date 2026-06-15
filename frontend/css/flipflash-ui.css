@@ -1123,6 +1123,16 @@ a {
   object-fit: cover;
 }
 
+.ff-folder-link {
+  display: inline-flex;
+  width: fit-content;
+  text-decoration: none;
+}
+
+.ff-folder-link:hover {
+  text-decoration: underline;
+}
+
 /* ============================================================
    RECENT STUDY SESSIONS
 ============================================================ */
