@@ -2372,6 +2372,8 @@ async function initAchievementsPage() {
     document.getElementById("achievementsGrid") ||
     document.getElementById("badgesGrid");
 
+  const searchInput = document.getElementById("achievementSearchInput");
+
   if (!container) return;
 
   container.className = "ff-grid";
@@ -2395,73 +2397,101 @@ async function initAchievementsPage() {
     const result = await api("listAchievements");
     const achievements = result.achievements || [];
 
-    container.innerHTML = "";
+    function renderAchievements(filteredAchievements) {
+      container.innerHTML = "";
 
-    if (!achievements.length) {
-      container.innerHTML = `
-        <div class="ff-card" style="grid-column:1/-1;">
-          <h3 style="margin:0 0 8px;font-size:24px;font-weight:800;">
-            Chưa có achievement nào
-          </h3>
-          <p style="margin:0;color:var(--on-surface-variant);">
-            Học bài, tạo deck và thêm cards để mở khóa badges.
-          </p>
-        </div>
-      `;
-      return;
-    }
-
-    achievements.forEach((badge) => {
-      const progress = badge.target
-        ? Math.min(100, Math.round((Number(badge.progress || 0) / Number(badge.target || 1)) * 100))
-        : 0;
-
-      const unlocked = Boolean(badge.is_unlocked);
-
-      const item = document.createElement("article");
-      item.className = `ff-card ff-card-lift ff-achievement-card ${
-        unlocked ? "is-unlocked" : ""
-      }`;
-
-      item.innerHTML = `
-        <div class="ff-achievement-top">
-          <div class="ff-achievement-icon">
-            <span class="material-symbols-outlined">
-              ${safeText(badge.badge_icon || "emoji_events")}
-            </span>
-          </div>
-
-          <div>
-            <h3 class="ff-achievement-name">
-              ${safeText(badge.badge_name || "Achievement")}
+      if (!filteredAchievements.length) {
+        container.innerHTML = `
+          <div class="ff-card" style="grid-column:1/-1;">
+            <h3 style="margin:0 0 8px;font-size:24px;font-weight:800;">
+              Không tìm thấy achievement nào
             </h3>
-
-            <p class="ff-achievement-desc">
-              ${safeText(badge.badge_description || "")}
+            <p style="margin:0;color:var(--on-surface-variant);">
+              Thử tìm bằng tên badge, mô tả hoặc trạng thái unlocked/locked.
             </p>
           </div>
-        </div>
+        `;
+        return;
+      }
 
-        <div class="ff-achievement-progress">
-          <div class="ff-progress-track">
-            <div class="ff-progress-fill" style="width:${progress}%"></div>
-          </div>
+      filteredAchievements.forEach((badge) => {
+        const progress = badge.target
+          ? Math.min(
+              100,
+              Math.round(
+                (Number(badge.progress || 0) / Number(badge.target || 1)) * 100
+              )
+            )
+          : 0;
 
-          <div class="ff-achievement-foot">
-            <span>${badge.progress || 0}/${badge.target || 0}</span>
+        const unlocked = Boolean(badge.is_unlocked);
 
-            <span class="ff-badge ${unlocked ? "ff-badge-unlocked" : "ff-badge-locked"}">
-              <span class="material-symbols-outlined" style="font-size:17px;">
-                ${unlocked ? "check_circle" : "lock"}
+        const item = document.createElement("article");
+        item.className = `ff-card ff-card-lift ff-achievement-card ${
+          unlocked ? "is-unlocked" : ""
+        }`;
+
+        item.innerHTML = `
+          <div class="ff-achievement-top">
+            <div class="ff-achievement-icon">
+              <span class="material-symbols-outlined">
+                ${safeText(badge.badge_icon || "emoji_events")}
               </span>
-              ${unlocked ? "Unlocked" : "Locked"}
-            </span>
-          </div>
-        </div>
-      `;
+            </div>
 
-      container.appendChild(item);
-    });
+            <div>
+              <h3 class="ff-achievement-name">
+                ${safeText(badge.badge_name || "Achievement")}
+              </h3>
+
+              <p class="ff-achievement-desc">
+                ${safeText(badge.badge_description || "")}
+              </p>
+            </div>
+          </div>
+
+          <div class="ff-achievement-progress">
+            <div class="ff-progress-track">
+              <div class="ff-progress-fill" style="width:${progress}%"></div>
+            </div>
+
+            <div class="ff-achievement-foot">
+              <span>${badge.progress || 0}/${badge.target || 0}</span>
+
+              <span class="ff-badge ${
+                unlocked ? "ff-badge-unlocked" : "ff-badge-locked"
+              }">
+                <span class="material-symbols-outlined" style="font-size:17px;">
+                  ${unlocked ? "check_circle" : "lock"}
+                </span>
+                ${unlocked ? "Unlocked" : "Locked"}
+              </span>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(item);
+      });
+    }
+
+    renderAchievements(achievements);
+
+    if (searchInput) {
+      searchInput.addEventListener("input", () => {
+        const keyword = searchInput.value.trim().toLowerCase();
+
+        const filtered = achievements.filter((badge) => {
+          const name = badge.badge_name || "";
+          const description = badge.badge_description || "";
+          const status = badge.is_unlocked ? "unlocked opened complete" : "locked incomplete";
+          const text = `${name} ${description} ${status}`.toLowerCase();
+
+          return text.includes(keyword);
+        });
+
+        renderAchievements(filtered);
+      });
+    }
   } catch (err) {
     container.innerHTML = `
       <div class="ff-card" style="grid-column:1/-1;">
