@@ -1819,69 +1819,6 @@ async function initCardsPage() {
 
   await loadCardsAndRender(setId);
 
-  bindImageUploadPreview();
-
-  const form = document.getElementById("createCardForm");
-
-  if (form && form.dataset.bound !== "true") {
-    form.dataset.bound = "true";
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const question = document.getElementById("cardQuestion")?.value?.trim();
-      const answer = document.getElementById("cardAnswer")?.value?.trim();
-      const difficulty = Number(document.getElementById("cardDifficulty")?.value || 1);
-
-      if (!question) {
-        showToast("Vui lòng nhập câu hỏi.", "error");
-        return;
-      }
-
-      if (!answer) {
-        showToast("Vui lòng nhập câu trả lời.", "error");
-        return;
-      }
-
-      try {
-        const imageFile = document.getElementById("cardImageFile")?.files?.[0] || null;
-        let imageUrl = null;
-
-        if (imageFile) {
-          showToast("Đang tải ảnh lên...", "info");
-          imageUrl = await uploadCardImage(imageFile);
-        }
-
-        await createCard({
-          deckId,
-          folderId,
-          setId,
-          question,
-          answer,
-          image_url: imageUrl,
-          difficulty_level: difficulty,
-        });
-
-        showToast("Đã thêm card.", "success");
-
-        form.reset();
-
-        const preview = document.getElementById("cardImagePreview");
-        if (preview) {
-          preview.src = "";
-          preview.classList.add("hidden");
-        }
-
-        closeModal("createCardModal");
-        await renderCardsPageHeader(deckId, folderId, setId);
-
-        await loadCardsAndRender(setId);
-      } catch (err) {
-        showToast(err.message, "error");
-      }
-    });
-  }
-
   const studyBtn = document.getElementById("studySetBtn");
 
   if (studyBtn && studyBtn.dataset.bound !== "true") {
@@ -1994,20 +1931,30 @@ function renderCards(cards) {
   });
 
   if (!cards.length) {
-    const empty = document.createElement("div");
-    empty.className = "ff-card";
+  const empty = document.createElement("div");
+  empty.className = "ff-card";
 
-    empty.innerHTML = `
-      <h3 style="margin:0 0 8px;font-size:24px;font-weight:800;">
-        Set này chưa có flashcard
-      </h3>
-      <p style="margin:0;color:var(--on-surface-variant);">
-        Hãy thêm card đầu tiên.
-      </p>
-    `;
+  empty.innerHTML = `
+    <h3 style="margin:0 0 8px;font-size:24px;font-weight:800;">
+      Set này chưa có flashcard
+    </h3>
+    <p style="margin:0;color:var(--on-surface-variant);">
+      Bấm nút + bên dưới để thêm card đầu tiên.
+    </p>
+  `;
 
-    container.appendChild(empty);
-    return;
+  container.appendChild(empty);
+  } else {
+    cards.forEach((card, index) => {
+      const row = document.createElement("article");
+      row.className = "ff-card-row";
+      row.dataset.cardId = card.id;
+
+      // giữ nguyên toàn bộ code render card cũ
+      // từ if (isBulkEditMode) { ... } else { ... }
+
+      container.appendChild(row);
+    });
   }
 
   cards.forEach((card, index) => {
@@ -2104,6 +2051,9 @@ function renderCards(cards) {
     container.appendChild(row);
   });
 
+  appendInlineAddCardArea(container);
+  bindInlineAddCardEvents();
+
   document.querySelectorAll("[data-delete-card]").forEach((btn) => {
     btn.addEventListener("click", async () => {
       if (!confirm("Xóa card này?")) return;
@@ -2119,6 +2069,202 @@ function renderCards(cards) {
       }
     });
   });
+}
+
+function appendInlineAddCardArea(container) {
+  const area = document.createElement("div");
+  area.className = "ff-inline-add-area";
+  area.id = "inlineAddCardArea";
+
+  area.innerHTML = `
+    <button
+      id="addInlineCardBtn"
+      type="button"
+      class="ff-add-card-circle"
+      title="Add card">
+      <span class="material-symbols-outlined">add</span>
+    </button>
+
+    <button
+      id="saveInlineCardsBtn"
+      type="button"
+      class="ff-btn ff-btn-primary hidden">
+      Save New Cards
+    </button>
+  `;
+
+  container.appendChild(area);
+}
+
+function bindInlineAddCardEvents() {
+  const addBtn = document.getElementById("addInlineCardBtn");
+  const saveBtn = document.getElementById("saveInlineCardsBtn");
+
+  if (addBtn) {
+    addBtn.onclick = () => {
+      addInlineCardRow();
+      saveBtn?.classList.remove("hidden");
+    };
+  }
+
+  if (saveBtn) {
+    saveBtn.onclick = saveInlineNewCards;
+  }
+}
+
+function addInlineCardRow() {
+  const area = document.getElementById("inlineAddCardArea");
+  if (!area) return;
+
+  const uid = `new-card-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+  const row = document.createElement("article");
+  row.className = "ff-card-row ff-new-card-row";
+  row.dataset.newCardRow = "true";
+
+  row.innerHTML = `
+    <div class="ff-card-row-head">
+      <p class="ff-card-index">New Card</p>
+
+      <button
+        type="button"
+        class="ff-icon-btn"
+        data-remove-new-card
+        title="Remove card">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <div class="ff-card-edit-grid">
+      <div class="ff-field" style="margin:0;">
+        <label>Question</label>
+        <textarea data-new-question placeholder="Enter question..." required></textarea>
+      </div>
+
+      <div class="ff-field" style="margin:0;">
+        <label>Answer</label>
+        <textarea data-new-answer placeholder="Enter answer..." required></textarea>
+      </div>
+    </div>
+
+    <div class="ff-card-extra-grid">
+      <div class="ff-field" style="margin:0;">
+        <label>Image / Hint</label>
+
+        <label for="${uid}" class="ff-new-card-upload">
+          <span class="material-symbols-outlined">add_photo_alternate</span>
+          <strong>Upload image</strong>
+          <small>PNG, JPG, WebP · Max 5MB</small>
+        </label>
+
+        <input
+          id="${uid}"
+          data-new-image
+          type="file"
+          accept="image/*"
+          class="hidden"/>
+
+        <img
+          data-new-preview
+          class="ff-new-card-preview hidden"
+          alt="Image preview"/>
+      </div>
+
+      <div class="ff-field" style="margin:0;">
+        <label>Difficulty</label>
+        <select data-new-difficulty>
+          <option value="1">1 - Easy</option>
+          <option value="2">2</option>
+          <option value="3">3 - Medium</option>
+          <option value="4">4</option>
+          <option value="5">5 - Hard</option>
+        </select>
+      </div>
+    </div>
+  `;
+
+  area.parentNode.insertBefore(row, area);
+
+  row.querySelector("[data-remove-new-card]")?.addEventListener("click", () => {
+    row.remove();
+
+    const stillHasNewRows = document.querySelectorAll("[data-new-card-row]").length > 0;
+    if (!stillHasNewRows) {
+      document.getElementById("saveInlineCardsBtn")?.classList.add("hidden");
+    }
+  });
+
+  const fileInput = row.querySelector("[data-new-image]");
+  const preview = row.querySelector("[data-new-preview]");
+
+  fileInput?.addEventListener("change", () => {
+    const file = fileInput.files?.[0];
+
+    if (!file || !preview) return;
+
+    preview.src = URL.createObjectURL(file);
+    preview.classList.remove("hidden");
+  });
+
+  row.querySelector("[data-new-question]")?.focus();
+}
+
+async function saveInlineNewCards() {
+  const rows = Array.from(document.querySelectorAll("[data-new-card-row]"));
+
+  if (!rows.length) return;
+
+  const deckId = getParam("deckId");
+  const folderId = getParam("folderId");
+  const setId = getParam("setId");
+
+  const saveBtn = document.getElementById("saveInlineCardsBtn");
+
+  try {
+    if (saveBtn) {
+      saveBtn.disabled = true;
+      saveBtn.textContent = "Saving...";
+    }
+
+    for (const row of rows) {
+      const question = row.querySelector("[data-new-question]")?.value?.trim();
+      const answer = row.querySelector("[data-new-answer]")?.value?.trim();
+      const difficulty = Number(row.querySelector("[data-new-difficulty]")?.value || 1);
+      const imageFile = row.querySelector("[data-new-image]")?.files?.[0] || null;
+
+      if (!question || !answer) {
+        throw new Error("Question và Answer không được để trống.");
+      }
+
+      let imageUrl = null;
+
+      if (imageFile) {
+        imageUrl = await uploadCardImage(imageFile);
+      }
+
+      await createCard({
+        deckId,
+        folderId,
+        setId,
+        question,
+        answer,
+        image_url: imageUrl,
+        difficulty_level: difficulty,
+      });
+    }
+
+    showToast("Đã thêm cards.", "success");
+
+    await renderCardsPageHeader(deckId, folderId, setId);
+    await loadCardsAndRender(setId);
+  } catch (err) {
+    showToast(err.message, "error");
+
+    if (saveBtn) {
+      saveBtn.disabled = false;
+      saveBtn.textContent = "Save New Cards";
+    }
+  }
 }
 
 async function saveAllCardsInSet() {

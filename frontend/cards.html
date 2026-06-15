@@ -101,10 +101,6 @@
           <button id="studySetBtn" class="ff-btn ff-btn-tonal" type="button">
             Study Set
           </button>
-          <button data-modal-open="createCardModal" class="ff-btn ff-btn-primary" type="button">
-            <span class="material-symbols-outlined">add</span>
-            Add Card
-          </button>
         </div>
       </section>
 
@@ -182,74 +178,6 @@
     </div>
   </div>
 
-  <div id="createCardModal" class="ff-modal hidden">
-    <div class="ff-modal-panel">
-      <div class="ff-modal-head">
-        <div>
-          <h3>Add Card</h3>
-          <p>Create a new flashcard.</p>
-        </div>
-        <button class="ff-icon-btn" data-modal-close="createCardModal" type="button">
-          <span class="material-symbols-outlined">close</span>
-        </button>
-      </div>
-
-      <form id="createCardForm">
-        <div class="ff-field">
-          <label>Question</label>
-          <textarea id="cardQuestion" required></textarea>
-        </div>
-
-        <div class="ff-field">
-          <label>Answer</label>
-          <textarea id="cardAnswer" required></textarea>
-        </div>
-
-        <div class="ff-field">
-        <label>Image / Hint</label>
-
-        <label
-        for="cardImageFile"
-        class="ff-upload-box">
-        <span class="material-symbols-outlined">add_photo_alternate</span>
-        <strong>Upload image from your device</strong>
-        <small>PNG, JPG, WebP · Max 5MB</small>
-        </label>
-
-        <input
-        id="cardImageFile"
-        type="file"
-        accept="image/*"
-        class="hidden"/>
-
-        <img
-        id="cardImagePreview"
-        class="ff-upload-preview hidden"
-        alt="Image preview"/>
-        </div>
-
-        <div class="ff-field">
-          <label>Difficulty</label>
-          <select id="cardDifficulty">
-            <option value="1">1 - Easy</option>
-            <option value="2">2</option>
-            <option value="3">3 - Medium</option>
-            <option value="4">4</option>
-            <option value="5">5 - Hard</option>
-          </select>
-        </div>
-
-        <div class="ff-actions">
-          <button type="button" data-modal-close="createCardModal" class="ff-btn ff-btn-soft">
-            Cancel
-          </button>
-          <button type="submit" class="ff-btn ff-btn-primary">
-            Add Card
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
 
   <div id="createDeckModal" class="ff-modal hidden">
     <div class="ff-modal-panel">
