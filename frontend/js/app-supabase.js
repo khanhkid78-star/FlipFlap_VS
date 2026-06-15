@@ -1279,6 +1279,30 @@ if (editSetForm && editSetForm.dataset.bound !== "true") {
       showToast("Đã cập nhật set.", "success");
 
       await loadDeckBundleAndRender(deckId);
+      const focusFolderId = getParam("focusFolder");
+
+      if (focusFolderId) {
+        setTimeout(() => {
+          const folderEl = document.querySelector(
+            `[data-folder-card="${focusFolderId}"]`
+          );
+
+          const folderBody = document.querySelector(
+            `[data-folder-body="${focusFolderId}"]`
+          );
+
+          if (folderBody) {
+            folderBody.classList.remove("is-collapsed");
+          }
+
+          if (folderEl) {
+            folderEl.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        }, 200);
+      }
     } catch (err) {
       showToast(err.message, "error");
     }
@@ -1366,6 +1390,7 @@ function renderFoldersAndSets(deck, folders, sets) {
 
     const section = document.createElement("section");
     section.className = "ff-card ff-folder-card";
+    section.dataset.folderCard = folder.id;
 
     section.innerHTML = `
       <button
@@ -1689,12 +1714,14 @@ async function renderCardsPageHeader(deckId, folderId, setId) {
   try {
     const result = await getDeckBundle(deckId);
 
-    const folder = (result.folders || []).find(
-      (item) => String(item.id) === String(folderId)
-    );
-
     const set = (result.sets || []).find(
       (item) => String(item.id) === String(setId)
+    );
+
+    const realFolderId = set?.folder_id || folderId;
+
+    const folder = (result.folders || []).find(
+      (item) => String(item.id) === String(realFolderId)
     );
 
     const folderLink = document.getElementById("cardsFolderLink");
@@ -1702,7 +1729,7 @@ async function renderCardsPageHeader(deckId, folderId, setId) {
 
     if (folderLink) {
       folderLink.textContent = folder?.name || "Folder";
-      folderLink.href = `deck-details.html?id=${deckId}&folderId=${folderId}`;
+      folderLink.href = `deck-details.html?id=${deckId}&focusFolder=${realFolderId}`;
       folderLink.title = "Back to folder";
     }
 
@@ -1725,6 +1752,8 @@ async function initCardsPage() {
     window.location.href = "decks.html";
     return;
   }
+
+  await renderCardsPageHeader(deckId, folderId, setId);
 
   await loadCardsAndRender(setId);
 
