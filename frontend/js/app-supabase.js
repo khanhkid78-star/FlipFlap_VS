@@ -947,12 +947,12 @@ function renderDecks(decks, options = {}) {
   });
 
   document.querySelectorAll("[data-delete-deck]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      e.stopPropagation();
-      confirmDeleteDeck(
-        btn.dataset.deleteDeck,
-        btn.dataset.deckName,
-        Number(btn.dataset.cardCount || 0)
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    confirmDeleteDeck(
+      btn.dataset.deleteDeck,
+      btn.dataset.deckName,
+      Number(btn.dataset.cardCount || 0)
       );
     });
   });
