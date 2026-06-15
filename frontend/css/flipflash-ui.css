@@ -1598,13 +1598,31 @@ a {
   border-radius:14px;
   padding:12px;
   font-weight:700;
-  background:var(--surface-container);
+  background: #f7e4d8;
   color:var(--on-surface);
 }
 
 .ff-auth-tabs button.active{
-  background:var(--primary);
-  color:white;
+  background: var(--primary);
+  color: #fff;
+
+  box-shadow:
+    0 4px 12px rgba(153,71,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.15);
+
+  transform: translateY(-1px);
+}
+
+.ff-auth-tabs button{
+  transition:
+    background .2s ease,
+    color .2s ease,
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.ff-auth-tabs button:hover{
+  transform: translateY(-1px);
 }
 
 .ff-auth-card{
