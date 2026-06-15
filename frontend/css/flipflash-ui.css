@@ -1542,7 +1542,8 @@ a {
 
 .ff-set-card {
   position: relative;
-  min-height: 220px;
+  min-height: 0;
+  height: auto;
   display: flex;
   flex-direction: column;
 }
@@ -1552,7 +1553,7 @@ a {
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
 }
 
 .ff-set-title {
@@ -1592,7 +1593,7 @@ a {
 .ff-set-actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: 10px;
+  margin-top: 6px;
 }
 
 @media (max-width: 760px) {
