@@ -261,6 +261,54 @@
     </div>
   </div>
 
+  <div id="editDeckModal" class="ff-modal hidden">
+  <div class="ff-modal-panel">
+    <div class="ff-modal-head">
+      <div>
+        <h3>Edit Deck</h3>
+        <p>Update deck name, description, and color.</p>
+      </div>
+      <button class="ff-icon-btn" data-modal-close="editDeckModal" type="button">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <form id="editDeckForm">
+      <input id="editDeckId" type="hidden"/>
+
+      <div class="ff-field">
+        <label>Deck Name</label>
+        <input id="editDeckName" type="text" required/>
+      </div>
+
+      <div class="ff-field">
+        <label>Description</label>
+        <textarea id="editDeckDesc" placeholder="Short description"></textarea>
+      </div>
+
+      <input id="editSelectedColor" type="hidden" value="#994700"/>
+
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin:14px 0;">
+        <button type="button" data-edit-color="#994700" style="width:40px;height:40px;border-radius:50%;border:0;background:#994700;"></button>
+        <button type="button" data-edit-color="#006397" style="width:40px;height:40px;border-radius:50%;border:0;background:#006397;"></button>
+        <button type="button" data-edit-color="#5f5e5e" style="width:40px;height:40px;border-radius:50%;border:0;background:#5f5e5e;"></button>
+        <button type="button" data-edit-color="#E91E63" style="width:40px;height:40px;border-radius:50%;border:0;background:#E91E63;"></button>
+        <button type="button" data-edit-color="#9C27B0" style="width:40px;height:40px;border-radius:50%;border:0;background:#9C27B0;"></button>
+        <button type="button" data-edit-color="#4CAF50" style="width:40px;height:40px;border-radius:50%;border:0;background:#4CAF50;"></button>
+      </div>
+
+      <div class="ff-actions">
+        <button type="button" data-modal-close="editDeckModal" class="ff-btn ff-btn-soft">
+          Cancel
+        </button>
+        <button id="saveEditDeckBtn" type="submit" class="ff-btn ff-btn-primary">
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./js/supabase-config.js"></script>
   <script src="./js/app-supabase.js"></script>

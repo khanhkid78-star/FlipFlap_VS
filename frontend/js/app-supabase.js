@@ -20,7 +20,8 @@ let isAnswerShown = false;
 document.addEventListener("DOMContentLoaded", async () => {
   bindCommonEvents();
   bindAuthTabs();
-  
+  bindEditDeckForm();
+
   try {
     currentSession = await getSessionOrNull();
 
@@ -1018,7 +1019,98 @@ async function deleteDeckAndReload(deckId, modal = null) {
 }
 
 function openEditDeck(deckId) {
-  window.location.href = `deck-details.html?id=${deckId}&edit=true`;
+  const deck = allDeckCache.find((d) => String(d.id) === String(deckId));
+
+  if (!deck) {
+    showToast("Cannot find deck to edit.", "error");
+    return;
+  }
+
+  const modal = document.getElementById("editDeckModal");
+
+  if (!modal) {
+    showToast("Cannot find editDeckModal in the HTML file.", "error");
+    return;
+  }
+
+  document.getElementById("editDeckId").value = deck.id;
+  document.getElementById("editDeckName").value = deck.name || "";
+  document.getElementById("editDeckDesc").value = deck.description || "";
+  document.getElementById("editSelectedColor").value = deck.color || "#994700";
+
+  document.querySelectorAll("[data-edit-color]").forEach((btn) => {
+    btn.classList.remove("ring-2", "ring-offset-2");
+
+    if (btn.dataset.editColor === (deck.color || "#994700")) {
+      btn.classList.add("ring-2", "ring-offset-2");
+    }
+  });
+
+  openModal("editDeckModal");
+}
+
+function bindEditDeckForm() {
+  const form = document.getElementById("editDeckForm");
+
+  if (!form) return;
+  if (form.dataset.bound === "true") return;
+
+  form.dataset.bound = "true";
+
+  document.querySelectorAll("[data-edit-color]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const selectedColor = document.getElementById("editSelectedColor");
+      if (selectedColor) selectedColor.value = btn.dataset.editColor;
+
+      document.querySelectorAll("[data-edit-color]").forEach((b) => {
+        b.classList.remove("ring-2", "ring-offset-2");
+      });
+
+      btn.classList.add("ring-2", "ring-offset-2");
+    });
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const deckId = document.getElementById("editDeckId")?.value;
+    const name = document.getElementById("editDeckName")?.value?.trim();
+    const description = document.getElementById("editDeckDesc")?.value?.trim() || "";
+    const color = document.getElementById("editSelectedColor")?.value || "#994700";
+
+    if (!deckId) {
+      showToast("Deck ID is required", "error");
+      return;
+    }
+
+    if (!name) {
+      showToast("Deck name is required", "error");
+      return;
+    }
+
+    try {
+      showLoading("saveEditDeckBtn", "Saving...");
+
+      await updateDeck(deckId, {
+        name,
+        description,
+        color,
+      });
+
+      closeModal("editDeckModal");
+      showToast("Deck updated", "success");
+
+      if (getCurrentPage() === "decks.html") {
+        await loadAndRenderDecks({ limit: null, mode: "all" });
+      } else {
+        await loadAndRenderDecks({ limit: 4, mode: "dashboard" });
+      }
+    } catch (err) {
+      showToast(err.message, "error");
+    } finally {
+      hideLoading("saveEditDeckBtn", "Save Changes");
+    }
+  });
 }
 
 // ============================================================
