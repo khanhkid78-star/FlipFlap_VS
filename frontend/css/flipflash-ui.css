@@ -159,6 +159,11 @@ a {
   border-right: 1px solid var(--outline-variant);
 }
 
+.ff-sidebar-create{
+  width:100%;
+  margin-bottom:20px;
+}
+
 .ff-user {
   display: flex;
   align-items: center;

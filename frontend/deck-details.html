@@ -42,6 +42,16 @@
       </div>
     </div>
 
+    <button
+      data-modal-open="createDeckModal"
+      class="ff-btn ff-btn-tonal ff-sidebar-create"
+      type="button">
+
+      <span class="material-symbols-outlined">add</span>
+      Create New Deck
+      
+    </button>
+
     <nav class="ff-nav">
       <a href="index.html">
         <span class="material-symbols-outlined">home</span>
@@ -344,6 +354,52 @@
     </form>
   </div>
 </div>
+
+<div id="createDeckModal" class="ff-modal hidden">
+    <div class="ff-modal-panel">
+      <div class="ff-modal-head">
+        <div>
+          <h3>Create New Deck</h3>
+          <p>Add a new flashcard deck.</p>
+        </div>
+        <button class="ff-icon-btn" data-modal-close="createDeckModal" type="button">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form id="createDeckForm">
+        <div class="ff-field">
+          <label>Deck Name</label>
+          <input id="deckName" type="text" required placeholder="e.g. English Vocabulary"/>
+        </div>
+
+        <div class="ff-field">
+          <label>Description</label>
+          <textarea id="deckDesc" placeholder="Short description"></textarea>
+        </div>
+
+        <input id="selectedColor" type="hidden" value="#994700"/>
+
+        <div style="display:flex; gap:12px; flex-wrap:wrap; margin:14px 0;">
+          <button type="button" data-color="#994700" style="width:40px;height:40px;border-radius:50%;border:0;background:#994700;"></button>
+          <button type="button" data-color="#006397" style="width:40px;height:40px;border-radius:50%;border:0;background:#006397;"></button>
+          <button type="button" data-color="#5f5e5e" style="width:40px;height:40px;border-radius:50%;border:0;background:#5f5e5e;"></button>
+          <button type="button" data-color="#E91E63" style="width:40px;height:40px;border-radius:50%;border:0;background:#E91E63;"></button>
+          <button type="button" data-color="#9C27B0" style="width:40px;height:40px;border-radius:50%;border:0;background:#9C27B0;"></button>
+          <button type="button" data-color="#4CAF50" style="width:40px;height:40px;border-radius:50%;border:0;background:#4CAF50;"></button>
+        </div>
+
+        <div class="ff-actions">
+          <button type="button" data-modal-close="createDeckModal" class="ff-btn ff-btn-soft">
+            Cancel
+          </button>
+          <button id="createDeckBtn" type="submit" class="ff-btn ff-btn-primary">
+            Create Deck
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./js/supabase-config.js"></script>
