@@ -1499,9 +1499,11 @@ function renderFoldersAndSets(deck, folders, sets) {
                             </div>
                         </div>
 
+                        ${set.description ? `
                         <p class="ff-set-desc">
-                            ${safeText(set.description || "")}
+                          ${safeText(set.description)}
                         </p>
+                      ` : ""}
 
                         <p class="ff-set-meta">
                             ${set.card_count || 0} cards ·
