@@ -1612,3 +1612,43 @@ a {
   max-width:420px;
   margin:auto;
 }
+
+/* ============================================================
+   AUTH MODAL COMPACT
+============================================================ */
+
+.ff-auth-panel{
+  max-width:520px;
+  padding:0;
+  overflow:hidden;
+}
+
+.ff-auth-hero{
+  padding:16px 24px;
+  border-bottom:1px solid var(--outline-variant);
+  background:
+    radial-gradient(
+      circle at top right,
+      var(--primary-container),
+      transparent 58%
+    ),
+    var(--surface-lowest);
+}
+
+.ff-auth-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  color:var(--primary);
+  font-size:22px;
+  font-weight:800;
+}
+
+.ff-auth-brand .material-symbols-outlined{
+  font-size:28px;
+}
+
+.ff-auth-panel-body{
+  padding:20px 24px 24px;
+}
