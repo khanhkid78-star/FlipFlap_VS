@@ -570,8 +570,8 @@ a {
 }
 
 .ff-btn:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.04);
+  transform: translateY(-2px);
+  filter: brightness(1.12);
   box-shadow: 0 8px 20px rgba(153, 71, 0, 0.12);
 }
 
