@@ -784,10 +784,10 @@ function renderDecks(decks, options = {}) {
 
     empty.innerHTML = `
       <h3 style="margin:0 0 8px;font-size:24px;font-weight:800;">
-        Chưa có deck nào
+        No decks yet.
       </h3>
       <p style="margin:0 0 18px;color:var(--on-surface-variant);">
-        Hãy tạo deck đầu tiên để bắt đầu học flashcard.
+        Create your first deck to start learning flashcards.
       </p>
       <button
         data-modal-open="createDeckModal"
@@ -821,6 +821,7 @@ function renderDecks(decks, options = {}) {
     const card = document.createElement("article");
     card.className = "ff-card ff-card-lift ff-deck-card";
     card.style.setProperty("--deck-color", color);
+    card.dataset.openDeck = deck.id;
 
     card.innerHTML = `
       <div class="ff-deck-head">
@@ -881,10 +882,10 @@ function renderDecks(decks, options = {}) {
 
         <button
           type="button"
-          data-open-deck="${deck.id}"
+          data-study-deck="${deck.id}"
           class="ff-btn ff-btn-soft"
           style="color:${safeText(color)};">
-          Open Deck
+          Study
         </button>
       </div>
     `;
@@ -925,20 +926,29 @@ function renderDecks(decks, options = {}) {
 
   if (addSection) container.appendChild(addSection);
 
-  document.querySelectorAll("[data-open-deck]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      window.location.href = `deck-details.html?id=${btn.dataset.openDeck}`;
+  document.querySelectorAll(".ff-deck-card[data-open-deck]").forEach((card) => {
+  card.addEventListener("click", () => {
+    window.location.href = `deck-details.html?id=${card.dataset.openDeck}`;
+    });
+  });
+
+  document.querySelectorAll("[data-study-deck]").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    window.location.href = `study-session.html?deckId=${btn.dataset.studyDeck}`;
     });
   });
 
   document.querySelectorAll("[data-edit-deck]").forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
       openEditDeck(btn.dataset.editDeck);
     });
   });
 
   document.querySelectorAll("[data-delete-deck]").forEach((btn) => {
     btn.addEventListener("click", () => {
+      e.stopPropagation();
       confirmDeleteDeck(
         btn.dataset.deleteDeck,
         btn.dataset.deckName,

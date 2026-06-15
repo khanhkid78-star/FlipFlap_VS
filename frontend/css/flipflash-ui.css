@@ -606,6 +606,12 @@ a {
   min-height: 244px;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+}
+
+.ff-deck-actions button,
+.ff-deck-footer button {
+  cursor: pointer;
 }
 
 .ff-deck-card::before {
