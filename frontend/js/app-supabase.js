@@ -2227,7 +2227,7 @@ function addInlineCardRow() {
 
       <button
         type="button"
-        class="ff-icon-btn"
+        class="ff-icon-btn danger"
         data-remove-new-card
         title="Remove card">
         <span class="material-symbols-outlined">close</span>
