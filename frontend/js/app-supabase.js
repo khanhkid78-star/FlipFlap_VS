@@ -514,6 +514,16 @@ function renderUserProfile(profile, user) {
         profile.username || "Flip Flash"
       )}&background=ffdbc8&color=994700`;
   }
+
+  const sidebarAvatar = document.querySelector(".ff-avatar");
+
+  if (sidebarAvatar) {
+    sidebarAvatar.src =
+      profile.avatar_url ||
+      `https://ui-avatars.com/api/?name=${encodeURIComponent(
+        profile.username || "Flip Flash"
+      )}&background=ffdbc8&color=994700`;
+  }
 }
 
 // ============================================================
@@ -3031,11 +3041,16 @@ async function initAccountPage() {
         avatar_url: avatar_url,
       });
 
+      currentUserProfile = {
+        ...currentUserProfile,
+        username,
+        avatar_url,
+      };
+
+      renderUserProfile(currentUserProfile, currentUser);
+
       showToast("Profile updated successfully.", "success");
 
-      if (currentUser) {
-        await loadUserProfile(currentUser);
-      }
     } catch (err) {
       showToast(err.message, "error");
     }
