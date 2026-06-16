@@ -2140,7 +2140,7 @@ function addInlineCardRow() {
       <div class="ff-field" style="margin:0;">
         <label>Image / Hint</label>
 
-        <label for="${uid}" class="ff-new-card-upload">
+        <label for="${uid}" class="ff-new-card-upload" data-new-upload-box>
           <span class="material-symbols-outlined">add_photo_alternate</span>
           <strong>Upload image</strong>
           <small>PNG, JPG, WebP · Max 5MB</small>
@@ -2153,10 +2153,20 @@ function addInlineCardRow() {
           accept="image/*"
           class="hidden"/>
 
-        <img
-          data-new-preview
-          class="ff-new-card-preview hidden"
-          alt="Image preview"/>
+        <div data-new-image-wrap class="ff-new-card-image-wrap hidden">
+          <img
+            data-new-preview
+            class="ff-new-card-preview"
+            alt="Image preview"/>
+
+          <button
+            type="button"
+            class="ff-remove-new-image"
+            data-remove-new-image
+            title="Remove image">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
       </div>
 
       <div class="ff-field" style="margin:0;">
@@ -2185,14 +2195,28 @@ function addInlineCardRow() {
 
   const fileInput = row.querySelector("[data-new-image]");
   const preview = row.querySelector("[data-new-preview]");
+  const imageWrap = row.querySelector("[data-new-image-wrap]");
+  const uploadBox = row.querySelector("[data-new-upload-box]");
+  const removeImageBtn = row.querySelector("[data-remove-new-image]");
 
   fileInput?.addEventListener("change", () => {
     const file = fileInput.files?.[0];
 
-    if (!file || !preview) return;
+    if (!file || !preview || !imageWrap || !uploadBox) return;
 
     preview.src = URL.createObjectURL(file);
-    preview.classList.remove("hidden");
+
+    imageWrap.classList.remove("hidden");
+    uploadBox.classList.add("hidden");
+  });
+
+  removeImageBtn?.addEventListener("click", () => {
+    if (fileInput) fileInput.value = "";
+
+    if (preview) preview.src = "";
+
+    imageWrap?.classList.add("hidden");
+    uploadBox?.classList.remove("hidden");
   });
 
   row.querySelector("[data-new-question]")?.focus();
