@@ -1986,7 +1986,7 @@ function renderCards(cards) {
 
           <button
             type="button"
-            class="ff-icon-btn"
+            class="ff-icon-btn danger"
             data-delete-card="${card.id}"
             title="Delete card">
             <span class="material-symbols-outlined">delete</span>
