@@ -1023,7 +1023,7 @@ a {
 }
 
 .ff-study-card {
-  width: min(1040px, 100%);
+  width: min(780px, 100%);
   min-height: 560px;
   perspective: 1200px;
 }
