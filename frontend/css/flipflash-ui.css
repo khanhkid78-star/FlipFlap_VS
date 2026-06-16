@@ -596,6 +596,15 @@ a {
   background: var(--primary-container);
 }
 
+.ff-icon-btn.danger {
+  color: var(--error);
+}
+
+.ff-icon-btn.danger:hover {
+  background: #ffdad6;
+  color: var(--error);
+}
+
 /* ============================================================
    DECK CARDS
 ============================================================ */
