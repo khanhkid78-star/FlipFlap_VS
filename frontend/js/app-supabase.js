@@ -2616,7 +2616,6 @@ function renderCurrentStudyCard() {
           class="ff-btn ff-btn-danger ${isAnswerShown ? "" : "hidden"}"
           type="button">
           <span class="material-symbols-outlined">close</span>
-          Incorrect
         </button>
 
         <button
@@ -2624,7 +2623,6 @@ function renderCurrentStudyCard() {
           class="ff-btn ff-btn-success ${isAnswerShown ? "" : "hidden"}"
           type="button">
           <span class="material-symbols-outlined">check</span>
-          Correct
         </button>
 
         <button
