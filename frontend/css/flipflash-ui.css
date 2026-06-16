@@ -1107,9 +1107,9 @@ a {
 
 #correctBtn,
 #incorrectBtn {
-  min-width: 110px;
+  min-width: 80px;
   width: auto;
-  padding: 12px 28px;
+  padding: 12px 20px;
 }
 
 /* ============================================================
