@@ -651,8 +651,9 @@ function bindImageUploadPreview() {
 
 async function initDashboard() {
   await loadAndRenderDecks({
-    limit: 4,
+    limit: 3,
     mode: "dashboard",
+    recentOnly: true,
   });
 
   bindCreateDeckForm();
@@ -722,13 +723,40 @@ function bindCreateDeckForm() {
 }
 
 async function loadAndRenderDecks(options = {}) {
-  const { limit = null, mode = "all" } = options;
+  const {
+    limit = null,
+    mode = "all",
+    recentOnly = false,
+  } = options;
 
   try {
     const data = await getAllDecks();
+
     allDeckCache = data?.decks || [];
 
-    const visibleDecks = limit ? allDeckCache.slice(0, limit) : allDeckCache;
+    let decksToRender = [...allDeckCache];
+
+    if (recentOnly) {
+      decksToRender.sort((a, b) => {
+        const aTime = new Date(
+          a.last_studied_at ||
+          a.updated_at ||
+          a.created_at
+        ).getTime();
+
+        const bTime = new Date(
+          b.last_studied_at ||
+          b.updated_at ||
+          b.created_at
+        ).getTime();
+
+        return bTime - aTime;
+      });
+    }
+
+    const visibleDecks = limit
+      ? decksToRender.slice(0, limit)
+      : decksToRender;
 
     renderDecks(visibleDecks, {
       mode,
