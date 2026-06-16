@@ -934,8 +934,9 @@ a {
 ============================================================ */
 
 .ff-study-card {
-  min-height: 420px;
+  min-height: 520px;
   perspective: 1200px;
+  width: min(900px, 90vw);
 }
 
 .ff-study-inner {
@@ -1018,7 +1019,8 @@ a {
   border-radius: 999px;
   background: var(--surface-container);
   overflow: hidden;
-  margin-bottom: 18px;
+  width: min(900px, 90vw);
+  margin: 0 auto 18px;
 }
 
 .ff-study-progress-fill {
@@ -1033,7 +1035,8 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 14px;
+  width: min(900px, 90vw);
+  margin: 0 auto 18px;
 }
 
 .ff-study-stat {
@@ -1069,6 +1072,18 @@ a {
 .ff-study-stat.is-known span {
   border: 1px solid var(--success);
   color: var(--success);
+}
+
+.ff-study-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 32px;
+}
+
+#studyArea {
+  display: flex;
+  justify-content: center;
 }
 
 /* ============================================================
