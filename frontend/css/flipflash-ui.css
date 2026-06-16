@@ -930,97 +930,38 @@ a {
 }
 
 /* ============================================================
-   STUDY FLIP CARD
+   STUDY SESSION
 ============================================================ */
 
-.ff-study-card {
-  min-height: 520px;
-  perspective: 1200px;
-  width: min(900px, 90vw);
+.ff-study-main {
+  margin-left: 264px;
+  padding: 112px 32px 64px;
+  min-height: 100vh;
 }
 
-.ff-study-inner {
-  position: relative;
+.ff-study-container {
   width: 100%;
-  min-height: 420px;
-  transform-style: preserve-3d;
-  transition: transform 0.58s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-width: 1240px;
+  margin: 0 auto;
 }
 
-.ff-study-card.is-flipped .ff-study-inner {
-  transform: rotateY(180deg);
-}
-
-.ff-study-face {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  border: 1px solid var(--outline-variant);
-  border-radius: 28px;
-  background:
-    radial-gradient(#e0c0af 0.5px, transparent 0.5px),
-    var(--surface-lowest);
-  background-size: 18px 18px;
-  padding: 42px;
-  box-shadow: 0 12px 38px rgba(153, 71, 0, 0.11);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  flex-direction: column;
-}
-
-.ff-study-back {
-  transform: rotateY(180deg);
-  background:
-    radial-gradient(#e0c0af 0.5px, transparent 0.5px),
-    #fffaf7;
-  background-size: 18px 18px;
-}
-
-.ff-study-label {
-  margin: 0 0 18px;
-  color: var(--primary);
-  font-size: 13px;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.ff-study-text {
+.ff-study-section {
   margin: 0;
-  font-size: 34px;
-  line-height: 1.25;
-  font-weight: 800;
-}
-
-.ff-study-answer {
-  margin: 0;
-  font-size: 30px;
-  line-height: 1.3;
-  color: var(--on-surface);
-}
-
-.ff-study-actions {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 26px;
+  display: block;
 }
 
 .ff-study-shell {
+  width: 100%;
   position: relative;
 }
 
 .ff-study-progress {
-  width: 100%;
+  width: min(1040px, 100%);
   height: 8px;
+  margin: 0 auto 22px;
   border-radius: 999px;
   background: var(--surface-container);
   overflow: hidden;
-  width: min(900px, 90vw);
-  margin: 0 auto 18px;
 }
 
 .ff-study-progress-fill {
@@ -1032,11 +973,11 @@ a {
 }
 
 .ff-study-stats {
+  width: min(1040px, 100%);
+  margin: 0 auto 22px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: min(900px, 90vw);
-  margin: 0 auto 18px;
 }
 
 .ff-study-stat {
@@ -1074,16 +1015,94 @@ a {
   color: var(--success);
 }
 
-.ff-study-container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px 32px;
-}
-
 #studyArea {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.ff-study-card {
+  width: min(1040px, 100%);
+  min-height: 560px;
+  perspective: 1200px;
+}
+
+.ff-study-inner {
+  position: relative;
+  width: 100%;
+  min-height: 560px;
+  transform-style: preserve-3d;
+  transition: transform 0.58s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ff-study-card.is-flipped .ff-study-inner {
+  transform: rotateY(180deg);
+}
+
+.ff-study-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border: 1px solid var(--outline-variant);
+  border-radius: 28px;
+  background:
+    radial-gradient(#e0c0af 0.5px, transparent 0.5px),
+    var(--surface-lowest);
+  background-size: 18px 18px;
+  padding: 42px;
+  box-shadow: 0 12px 38px rgba(153, 71, 0, 0.11);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.ff-study-back {
+  transform: rotateY(180deg);
+  background:
+    radial-gradient(#e0c0af 0.5px, transparent 0.5px),
+    #fffaf7;
+  background-size: 18px 18px;
+}
+
+.ff-study-label {
+  margin: 0 0 18px;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ff-study-text {
+  margin: 0;
+  font-size: 40px;
+  line-height: 1.25;
+  font-weight: 800;
+}
+
+.ff-study-answer {
+  margin: 0;
+  font-size: 36px;
+  line-height: 1.3;
+  color: var(--on-surface);
+}
+
+.ff-study-actions {
+  width: min(1040px, 100%);
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.ff-study-actions .ff-btn {
+  min-width: 160px;
 }
 
 /* ============================================================
@@ -1111,12 +1130,43 @@ a {
     align-items: flex-start;
   }
 
+  /* STUDY SESSION */
+
+  .ff-study-main {
+    margin-left: 0;
+    padding: 92px 18px 92px;
+  }
+
+  .ff-study-card,
+  .ff-study-inner {
+    min-height: 460px;
+  }
+
+  .ff-study-progress,
+  .ff-study-stats,
+  .ff-study-card,
+  .ff-study-actions {
+    width: 100%;
+  }
+
+  .ff-study-stats {
+    gap: 12px;
+  }
+
   .ff-study-text {
     font-size: 27px;
   }
 
   .ff-study-answer {
     font-size: 25px;
+  }
+
+  .ff-study-actions {
+    flex-direction: column;
+  }
+
+  .ff-study-actions .ff-btn {
+    width: 100%;
   }
 }
 
