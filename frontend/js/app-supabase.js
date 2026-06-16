@@ -712,7 +712,7 @@ function bindCreateDeckForm() {
       if (getCurrentPage() === "decks.html") {
         await loadAndRenderDecks({ limit: null, mode: "all" });
       } else {
-        await loadAndRenderDecks({ limit: 4, mode: "dashboard" });
+        await loadAndRenderDecks({ limit: 3, mode: "dashboard", recentOnly: true });
       }
     } catch (err) {
       showToast(err.message, "error");
@@ -1049,7 +1049,7 @@ async function deleteDeckAndReload(deckId, modal = null) {
     if (getCurrentPage() === "decks.html") {
       await loadAndRenderDecks({ limit: null, mode: "all" });
     } else {
-      await loadAndRenderDecks({ limit: 4, mode: "dashboard" });
+      await loadAndRenderDecks({ limit: 3, mode: "dashboard", recentOnly: true });
     }
   } catch (err) {
     showToast(err.message, "error");
@@ -1141,7 +1141,7 @@ function bindEditDeckForm() {
       if (getCurrentPage() === "decks.html") {
         await loadAndRenderDecks({ limit: null, mode: "all" });
       } else {
-        await loadAndRenderDecks({ limit: 4, mode: "dashboard" });
+        await loadAndRenderDecks({ limit: 3, mode: "dashboard", recentOnly: true });
       }
     } catch (err) {
       showToast(err.message, "error");
