@@ -1008,6 +1008,69 @@ a {
   margin-top: 26px;
 }
 
+.ff-study-shell {
+  position: relative;
+}
+
+.ff-study-progress {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--surface-container);
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.ff-study-progress-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--primary);
+  transition: width 0.28s ease;
+}
+
+.ff-study-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.ff-study-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+}
+
+.ff-study-stat span {
+  min-width: 46px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ff-study-stat.is-learning {
+  color: var(--error);
+}
+
+.ff-study-stat.is-learning span {
+  border: 1px solid var(--error);
+  color: var(--error);
+}
+
+.ff-study-stat.is-known {
+  color: var(--success);
+}
+
+.ff-study-stat.is-known span {
+  border: 1px solid var(--success);
+  color: var(--success);
+}
+
 /* ============================================================
    RESPONSIVE
 ============================================================ */

@@ -2535,11 +2535,20 @@ function renderCurrentStudyCard() {
   const card = studyCards[currentCardIndex];
   if (!card) return;
 
-  const progressEl = document.getElementById("studyProgress");
+  const progressFill = document.getElementById("studyProgressFill");
+  const stillLearningEl = document.getElementById("studyStillLearning");
+  const knowEl = document.getElementById("studyKnow");
 
-  if (progressEl) {
-    progressEl.textContent = `${currentCardIndex + 1}/${studyCards.length}`;
+  if (progressFill) {
+    const progress = studyCards.length
+      ? ((currentCardIndex + 1) / studyCards.length) * 100
+      : 0;
+
+    progressFill.style.width = `${progress}%`;
   }
+
+  if (stillLearningEl) stillLearningEl.textContent = studyIncorrect;
+  if (knowEl) knowEl.textContent = studyCorrect;
 
   const studyArea = document.getElementById("studyArea");
 
@@ -2589,6 +2598,7 @@ function renderCurrentStudyCard() {
           id="incorrectBtn"
           class="ff-btn ff-btn-danger ${isAnswerShown ? "" : "hidden"}"
           type="button">
+          <span class="material-symbols-outlined">close</span>
           Incorrect
         </button>
 
@@ -2596,6 +2606,7 @@ function renderCurrentStudyCard() {
           id="correctBtn"
           class="ff-btn ff-btn-success ${isAnswerShown ? "" : "hidden"}"
           type="button">
+          <span class="material-symbols-outlined">check</span>
           Correct
         </button>
 
@@ -2628,6 +2639,12 @@ async function reviewCurrentCard(isCorrect) {
     } else {
       studyIncorrect += 1;
     }
+
+    const stillLearningEl = document.getElementById("studyStillLearning");
+    const knowEl = document.getElementById("studyKnow");
+
+    if (stillLearningEl) stillLearningEl.textContent = studyIncorrect;
+    if (knowEl) knowEl.textContent = studyCorrect;
 
     currentCardIndex += 1;
     isAnswerShown = false;

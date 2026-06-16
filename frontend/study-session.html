@@ -80,15 +80,26 @@
   <main class="ff-main">
     <div class="ff-container" style="max-width:880px;">
       <section class="ff-page-header">
-        <div>
-          <p class="ff-kicker">Study Mode</p>
-          <h1 class="ff-title">Flashcard Session</h1>
+        <div class="ff-study-shell">
+          <div class="ff-study-progress">
+            <div id="studyProgressFill" class="ff-study-progress-fill"></div>
+          </div>
+
+          <div class="ff-study-stats">
+            <div class="ff-study-stat is-learning">
+              <span id="studyStillLearning">0</span>
+              <strong>Still Learning</strong>
+            </div>
+
+            <div class="ff-study-stat is-known">
+              <strong>Know</strong>
+              <span id="studyKnow">0</span>
+            </div>
+          </div>
+
+          <div id="studyArea"></div>
         </div>
-
-        <p id="studyProgress" class="ff-btn ff-btn-soft">0/0</p>
       </section>
-
-      <section id="studyArea"></section>
     </div>
   </main>
 
