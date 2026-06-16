@@ -153,6 +153,10 @@ async function api(action, payload = {}) {
   return json;
 }
 
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(email || "").trim());
+}
+
 function safeText(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -224,7 +228,7 @@ function showAuthModal() {
   if (modal) {
     modal.classList.remove("hidden");
   } else {
-    console.warn("Không thấy #authModal. Người dùng chưa đăng nhập.");
+    console.warn("Auth modal not found. User is not logged in.");
   }
 }
 
@@ -319,7 +323,12 @@ function bindCommonEvents() {
       const password = document.getElementById("loginPassword")?.value;
 
       if (!email || !password) {
-        showToast("Vui lòng nhập email và mật khẩu.", "error");
+        showToast("Please enter your email and password.", "error");
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        showToast("Invalid email format.", "error");
         return;
       }
 
@@ -345,14 +354,19 @@ function bindCommonEvents() {
       const username = document.getElementById("signupUsername")?.value?.trim();
 
       if (!email || !password) {
-        showToast("Vui lòng nhập email và mật khẩu.", "error");
+        showToast("Please enter your email and password.", "error");
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        showToast("Invalid email format.", "error");
         return;
       }
 
       try {
         await signUp(email, password, username);
         showToast(
-          "Tạo tài khoản thành công. Nếu có yêu cầu xác nhận email, hãy kiểm tra hộp thư.",
+          "Sign up successfully. If you have a verification email request, please check your inbox.",
           "success"
         );
       } catch (err) {
