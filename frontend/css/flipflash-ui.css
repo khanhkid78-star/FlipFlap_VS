@@ -597,7 +597,7 @@ a {
 }
 
 .ff-icon-btn.danger {
-  color: var(--error);
+  color: var(--primary);
 }
 
 .ff-icon-btn.danger:hover {
