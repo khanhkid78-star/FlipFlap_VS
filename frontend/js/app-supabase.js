@@ -2520,26 +2520,24 @@ async function initStudySession() {
 }
 
 function bindStudyButtons() {
-  const showAnswerBtn = document.getElementById("showAnswerBtn");
+  
   const correctBtn = document.getElementById("correctBtn");
   const incorrectBtn = document.getElementById("incorrectBtn");
   const finishStudyBtn = document.getElementById("finishStudyBtn");
-
   const studyFlipCard = document.getElementById("studyFlipCard");
+
+  function setCardFlipped(flipped) {
+    isAnswerShown = flipped;
+
+    studyFlipCard?.classList.toggle("is-flipped", flipped);
+    incorrectBtn?.classList.toggle("hidden", !flipped);
+    correctBtn?.classList.toggle("hidden", !flipped);
+  }
 
   if (studyFlipCard) {
     studyFlipCard.onclick = (e) => {
       if (e.target.closest("button")) return;
-
-      isAnswerShown = !isAnswerShown;
-      renderCurrentStudyCard();
-    };
-  }
-
-  if (showAnswerBtn) {
-    showAnswerBtn.onclick = () => {
-      isAnswerShown = true;
-      renderCurrentStudyCard();
+      setCardFlipped(!isAnswerShown);
     };
   }
 
@@ -2612,12 +2610,6 @@ function renderCurrentStudyCard() {
       </div>
 
       <div class="ff-study-actions">
-        <button
-          id="showAnswerBtn"
-          class="ff-btn ff-btn-primary ${isAnswerShown ? "hidden" : ""}"
-          type="button">
-          Show Answer
-        </button>
 
         <button
           id="incorrectBtn"
