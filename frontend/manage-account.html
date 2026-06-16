@@ -88,6 +88,31 @@
       </section>
 
       <form id="profileForm" class="ff-form-card">
+
+        <div class="ff-account-avatar-card">
+          <img
+            id="profileAvatarPreview"
+            class="ff-account-avatar-preview"
+            src="https://ui-avatars.com/api/?name=Flip+Flash&background=ffdbc8&color=994700"
+            alt="Avatar preview"/>
+
+          <div>
+            <h3>Profile photo</h3>
+            <p>Upload a JPG, PNG, or WebP image.</p>
+
+            <label class="ff-btn ff-btn-tonal" for="profileAvatarFile">
+              <span class="material-symbols-outlined">upload</span>
+              Upload Photo
+            </label>
+
+            <input
+              id="profileAvatarFile"
+              type="file"
+              accept="image/*"
+              class="hidden"/>
+          </div>
+        </div>
+
         <div class="ff-field">
           <label>Email</label>
           <input id="profileEmail" type="email" disabled/>
@@ -96,11 +121,6 @@
         <div class="ff-field">
           <label>Username</label>
           <input id="profileUsername" type="text" required/>
-        </div>
-
-        <div class="ff-field">
-          <label>Avatar URL</label>
-          <input id="profileAvatarUrl" type="url"/>
         </div>
 
         <button type="submit" class="ff-btn ff-btn-primary">

@@ -12,6 +12,7 @@ let studyCorrect = 0;
 let studyIncorrect = 0;
 let studyStartTime = null;
 let isAnswerShown = false;
+let currentUserProfile = null;
 
 // ============================================================
 // INIT
@@ -476,6 +477,7 @@ async function loadUserProfile(user) {
 
 
 function renderUserProfile(profile, user) {
+  currentUserProfile = profile;
   if (!profile) return;
 
   const nameEl = document.getElementById("userName");
@@ -503,8 +505,15 @@ function renderUserProfile(profile, user) {
   const usernameEl = document.getElementById("profileUsername");
   if (usernameEl) usernameEl.value = profile.username || "";
 
-  const avatarEl = document.getElementById("profileAvatarUrl");
-  if (avatarEl) avatarEl.value = profile.avatar_url || "";
+  const avatarPreview = document.getElementById("profileAvatarPreview");
+
+  if (avatarPreview) {
+    avatarPreview.src =
+      profile.avatar_url ||
+      `https://ui-avatars.com/api/?name=${encodeURIComponent(
+        profile.username || "Flip Flash"
+      )}&background=ffdbc8&color=994700`;
+  }
 }
 
 // ============================================================
@@ -2977,6 +2986,22 @@ async function initAccountPage() {
     document.getElementById("accountForm") ||
     document.getElementById("profileForm");
 
+
+  const avatarFileInput = document.getElementById("profileAvatarFile");
+  const avatarPreview = document.getElementById("profileAvatarPreview");
+
+  if (avatarFileInput && avatarPreview && avatarFileInput.dataset.bound !== "true") {
+    avatarFileInput.dataset.bound = "true";
+
+    avatarFileInput.addEventListener("change", () => {
+      const file = avatarFileInput.files?.[0];
+
+      if (!file) return;
+
+      avatarPreview.src = URL.createObjectURL(file);
+    });
+  }
+
   if (!form) return;
 
   if (form.dataset.bound === "true") return;
@@ -2987,11 +3012,16 @@ async function initAccountPage() {
 
     const username = document.getElementById("profileUsername")?.value?.trim();
 
-    const avatarUrl =
-      document.getElementById("profileAvatarUrl")?.value?.trim() || null;
+    let avatar_url = currentUserProfile?.avatar_url || "";
+
+    const avatarFile = document.getElementById("profileAvatarFile")?.files?.[0] || null;
+
+    if (avatarFile) {
+      avatar_url = await uploadCardImage(avatarFile);
+    }
 
     if (!username) {
-      showToast("Vui lòng nhập username.", "error");
+      showToast("Please enter a username.", "error");
       return;
     }
 
@@ -3001,7 +3031,7 @@ async function initAccountPage() {
         avatar_url: avatarUrl,
       });
 
-      showToast("Đã cập nhật tài khoản.", "success");
+      showToast("Profile updated successfully.", "success");
 
       if (currentUser) {
         await loadUserProfile(currentUser);

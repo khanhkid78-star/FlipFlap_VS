@@ -605,6 +605,44 @@ a {
   color: var(--error);
 }
 
+
+
+/*=====================
+ PROFILE 
+ ======================*/
+
+ .ff-account-avatar-card {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 20px;
+  margin-bottom: 22px;
+  border: 1px solid var(--outline-variant);
+  border-radius: 22px;
+  background: var(--surface-low);
+}
+
+.ff-account-avatar-preview {
+  width: 96px;
+  height: 96px;
+  border-radius: 28px;
+  object-fit: cover;
+  border: 2px solid var(--primary-container);
+  background: var(--primary-container);
+}
+
+.ff-account-avatar-card h3 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.ff-account-avatar-card p {
+  margin: 0 0 14px;
+  color: var(--on-surface-variant);
+  font-weight: 600;
+}
+
 /* ============================================================
    DECK CARDS
 ============================================================ */
