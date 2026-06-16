@@ -1979,11 +1979,47 @@ function renderCards(cards) {
 
         <div class="ff-card-extra-grid">
           <div class="ff-field" style="margin:0;">
-            <label>Image URL</label>
+            <label>Image / Hint</label>
+
+            <label
+              for="edit-image-${card.id}"
+              class="ff-new-card-upload ${card.image_url ? "hidden" : ""}"
+              data-edit-upload-box="${card.id}">
+              <span class="material-symbols-outlined">add_photo_alternate</span>
+              <strong>Upload image</strong>
+              <small>PNG, JPG, WebP · Max 5MB</small>
+            </label>
+
+            <input
+              id="edit-image-${card.id}"
+              data-edit-image-file="${card.id}"
+              type="file"
+              accept="image/*"
+              class="hidden"/>
+
             <input
               data-edit-image="${card.id}"
-              type="url"
+              type="hidden"
               value="${safeText(card.image_url || "")}">
+
+            <div
+              data-edit-image-wrap="${card.id}"
+              class="ff-new-card-image-wrap ${card.image_url ? "" : "hidden"}">
+
+              <img
+                data-edit-preview="${card.id}"
+                class="ff-new-card-preview"
+                src="${safeText(card.image_url || "")}"
+                alt="Image preview"/>
+
+              <button
+                type="button"
+                class="ff-remove-new-image"
+                data-remove-edit-image="${card.id}"
+                title="Remove image">
+                <span class="material-symbols-outlined">close</span>
+              </button>
+            </div>
           </div>
 
           <div class="ff-field" style="margin:0;">
@@ -2045,17 +2081,63 @@ function renderCards(cards) {
 
   document.querySelectorAll("[data-delete-card]").forEach((btn) => {
     btn.addEventListener("click", async () => {
-      if (!confirm("Xóa card này?")) return;
+      if (!confirm("Delete this card?")) return;
 
       try {
         await deleteCard(btn.dataset.deleteCard);
 
-        showToast("Đã xóa card.", "success");
+        showToast("Card deleted.", "success");
 
         await loadCardsAndRender(getParam("setId"));
       } catch (err) {
         showToast(err.message, "error");
       }
+    });
+  });
+  bindEditCardImageUploads();
+}
+
+
+function bindEditCardImageUploads() {
+  document.querySelectorAll("[data-edit-image-file]").forEach((input) => {
+    if (input.dataset.bound === "true") return;
+    input.dataset.bound = "true";
+
+    input.addEventListener("change", () => {
+      const cardId = input.dataset.editImageFile;
+      const file = input.files?.[0];
+
+      const preview = document.querySelector(`[data-edit-preview="${cardId}"]`);
+      const wrap = document.querySelector(`[data-edit-image-wrap="${cardId}"]`);
+      const uploadBox = document.querySelector(`[data-edit-upload-box="${cardId}"]`);
+
+      if (!file || !preview || !wrap || !uploadBox) return;
+
+      preview.src = URL.createObjectURL(file);
+      wrap.classList.remove("hidden");
+      uploadBox.classList.add("hidden");
+    });
+  });
+
+  document.querySelectorAll("[data-remove-edit-image]").forEach((btn) => {
+    if (btn.dataset.bound === "true") return;
+    btn.dataset.bound = "true";
+
+    btn.addEventListener("click", () => {
+      const cardId = btn.dataset.removeEditImage;
+
+      const fileInput = document.querySelector(`[data-edit-image-file="${cardId}"]`);
+      const hiddenInput = document.querySelector(`[data-edit-image="${cardId}"]`);
+      const preview = document.querySelector(`[data-edit-preview="${cardId}"]`);
+      const wrap = document.querySelector(`[data-edit-image-wrap="${cardId}"]`);
+      const uploadBox = document.querySelector(`[data-edit-upload-box="${cardId}"]`);
+
+      if (fileInput) fileInput.value = "";
+      if (hiddenInput) hiddenInput.value = "";
+      if (preview) preview.src = "";
+
+      wrap?.classList.add("hidden");
+      uploadBox?.classList.remove("hidden");
     });
   });
 }
@@ -2246,7 +2328,7 @@ async function saveInlineNewCards() {
       const imageFile = row.querySelector("[data-new-image]")?.files?.[0] || null;
 
       if (!question || !answer) {
-        throw new Error("Question và Answer không được để trống.");
+        throw new Error("Question and Answer cannot be empty.");
       }
 
       let imageUrl = null;
@@ -2296,13 +2378,20 @@ async function saveAllCardsInSet() {
     for (const card of cards) {
       const question = document.querySelector(`[data-edit-question="${card.id}"]`)?.value?.trim();
       const answer = document.querySelector(`[data-edit-answer="${card.id}"]`)?.value?.trim();
-      const imageUrl = document.querySelector(`[data-edit-image="${card.id}"]`)?.value?.trim();
+      let imageUrl = document.querySelector(`[data-edit-image="${card.id}"]`)?.value?.trim() || null;
+
+      const imageFile = document.querySelector(`[data-edit-image-file="${card.id}"]`)?.files?.[0] || null;
+
+      if (imageFile) {
+        imageUrl = await uploadCardImage(imageFile);
+      }
+
       const difficulty = Number(
         document.querySelector(`[data-edit-difficulty="${card.id}"]`)?.value || 1
       );
 
       if (!question || !answer) {
-        throw new Error("Question và Answer không được để trống.");
+        throw new Error("Question and Answer cannot be empty.");
       }
 
       await updateCard(card.id, {
@@ -2313,7 +2402,7 @@ async function saveAllCardsInSet() {
       });
     }
 
-    showToast("Đã lưu toàn bộ cards.", "success");
+    showToast("Saved all cards.", "success");
 
     isBulkEditMode = false;
     await loadCardsAndRender(getParam("setId"));
