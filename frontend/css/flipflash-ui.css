@@ -1274,6 +1274,15 @@ a {
   text-decoration: underline;
 }
 
+.ff-study-card {
+  cursor: pointer;
+}
+
+.ff-study-card:hover .ff-study-face {
+  border-color: var(--primary);
+  box-shadow: 0 16px 42px rgba(153, 71, 0, 0.15);
+}
+
 /* ============================================================
    RECENT STUDY SESSIONS
 ============================================================ */

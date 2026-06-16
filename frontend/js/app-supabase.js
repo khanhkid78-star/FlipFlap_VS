@@ -2525,6 +2525,17 @@ function bindStudyButtons() {
   const incorrectBtn = document.getElementById("incorrectBtn");
   const finishStudyBtn = document.getElementById("finishStudyBtn");
 
+  const studyFlipCard = document.getElementById("studyFlipCard");
+
+  if (studyFlipCard) {
+    studyFlipCard.onclick = (e) => {
+      if (e.target.closest("button")) return;
+
+      isAnswerShown = !isAnswerShown;
+      renderCurrentStudyCard();
+    };
+  }
+
   if (showAnswerBtn) {
     showAnswerBtn.onclick = () => {
       isAnswerShown = true;
@@ -2568,7 +2579,7 @@ function renderCurrentStudyCard() {
 
   if (studyArea) {
     studyArea.innerHTML = `
-      <div class="ff-study-card ${isAnswerShown ? "is-flipped" : ""}" id="studyFlipCard">
+      <div class="ff-study-card ${isAnswerShown ? "is-flipped" : ""}" id="studyFlipCard" title="Click to flip card">
         <div class="ff-study-inner">
           <div class="ff-study-face ff-study-front">
             <p class="ff-study-label">Question</p>
