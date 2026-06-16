@@ -3028,7 +3028,7 @@ async function initAccountPage() {
     try {
       await api("updateProfile", {
         username,
-        avatar_url: avatarUrl,
+        avatar_url: avatar_url,
       });
 
       showToast("Profile updated successfully.", "success");
