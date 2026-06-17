@@ -1509,6 +1509,26 @@ function renderDeckHeader(deck) {
   if (setCount) setCount.textContent = deck.set_count || 0;
 }
 
+function appendAddFolderButton(container) {
+  const addFolderArea = document.createElement("div");
+  addFolderArea.className = "ff-inline-add-area";
+
+  addFolderArea.innerHTML = `
+    <button
+      type="button"
+      class="ff-add-card-circle"
+      title="Create folder">
+      <span class="material-symbols-outlined">add</span>
+    </button>
+  `;
+
+  container.appendChild(addFolderArea);
+
+  addFolderArea.querySelector("button")?.addEventListener("click", () => {
+    openModal("createFolderModal");
+  });
+}
+
 function renderFoldersAndSets(deck, folders, sets) {
   const folderSelect = document.getElementById("setFolderId");
 
@@ -1531,25 +1551,17 @@ function renderFoldersAndSets(deck, folders, sets) {
     container.innerHTML = `
       <div class="ff-card">
         <h3 style="margin:0 0 8px;font-size:24px;font-weight:800;">
-          Deck này chưa có folder
+          This deck has no folders yet.
         </h3>
 
-        <p style="margin:0 0 18px;color:var(--on-surface-variant);">
-          Tạo folder trước, sau đó tạo set trong folder.
+        <p style="margin:0;color:var(--on-surface-variant);">
+          Bấm dấu + bên dưới để tạo folder đầu tiên.
         </p>
 
-        <button
-          type="button"
-          data-modal-open="createFolderModal"
-          class="ff-btn ff-btn-primary">
-          Create Folder
-        </button>
       </div>
     `;
 
-    container.querySelector("[data-modal-open]")?.addEventListener("click", () => {
-      openModal("createFolderModal");
-    });
+    appendAddFolderButton(container);
 
     return;
   }
@@ -1733,24 +1745,7 @@ function renderFoldersAndSets(deck, folders, sets) {
     container.appendChild(section);
   });
 
-  const addFolderArea = document.createElement("div");
-  addFolderArea.className = "ff-inline-add-area";
-
-  addFolderArea.innerHTML = `
-    <button
-      type="button"
-      class="ff-add-card-circle"
-      data-modal-open="createFolderModal"
-      title="Create folder">
-      <span class="material-symbols-outlined">add</span>
-    </button>
-  `;
-
-  container.appendChild(addFolderArea);
-
-  addFolderArea.querySelector("[data-modal-open]")?.addEventListener("click", () => {
-    openModal("createFolderModal");
-  });
+  appendAddFolderButton(container);
 
   // Toggle folder expand / collapse
   document.querySelectorAll("[data-toggle-folder]").forEach((btn) => {
