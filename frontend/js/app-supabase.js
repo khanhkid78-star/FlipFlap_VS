@@ -1555,7 +1555,7 @@ function renderFoldersAndSets(deck, folders, sets) {
         </h3>
 
         <p style="margin:0;color:var(--on-surface-variant);">
-          Bấm dấu + bên dưới để tạo folder đầu tiên.
+          Click the + button below to create your first folder.
         </p>
 
       </div>
