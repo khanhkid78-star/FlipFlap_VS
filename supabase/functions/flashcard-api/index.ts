@@ -540,7 +540,7 @@ Deno.serve(async (req) => {
     // ========================================================
 
     if (action === "startStudy") {
-    const { deckId, setId } = body;
+    const { deckId, setId, folderId } = body;
 
     if (!deckId) {
       return json({ error: "deckId is required" }, 400);
@@ -558,6 +558,9 @@ Deno.serve(async (req) => {
 
     if (setId) {
       cardQuery = cardQuery.eq("set_id", setId);
+    } else if (folderId) {
+      await assertFolderOwner(supabaseAdmin, userId, folderId, deckId);
+      cardQuery = cardQuery.eq("folder_id", folderId);
     }
 
     const { data: cards, error: cardError } = await cardQuery;

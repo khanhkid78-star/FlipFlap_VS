@@ -2555,6 +2555,7 @@ async function saveAllCardsInSet() {
 async function initStudySession() {
   const deckId = getParam("deckId");
   const setId = getParam("setId");
+  const folderId = getParam("folderId");
 
   if (!deckId) {
     showToast("No deckId.", "error");
@@ -2566,6 +2567,7 @@ async function initStudySession() {
     const result = await api("startStudy", {
       deckId,
       setId,
+      folderId,
     });
 
     studySessionId = result.session?.id;
