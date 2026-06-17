@@ -1601,7 +1601,7 @@ function renderFoldersAndSets(deck, folders, sets) {
               class="ff-mini-icon-btn"
               data-study-folder="${folder.id}"
               title="Study folder">
-              <span class="material-symbols-outlined">school</span>
+              <span class="material-symbols-outlined">library_books</span>
             </span>
 
             <span
