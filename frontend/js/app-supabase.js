@@ -455,7 +455,7 @@ function bindCommonEvents() {
         const icon = picker.querySelector("span");
 
         if (icon) {
-          icon.style.display = "none";
+          icon.style.display = "";
         }
       }
 

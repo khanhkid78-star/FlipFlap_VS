@@ -585,8 +585,17 @@ a {
 }
 
 .ff-color-picker-dot span {
-  font-size: 22px;
-  text-shadow: 0 1px 3px rgba(0,0,0,.45);
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.22);
+  pointer-events: none;
 }
 
 /* ============================================================
