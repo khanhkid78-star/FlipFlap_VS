@@ -446,6 +446,19 @@ function bindCommonEvents() {
         selectedColor.value = input.value;
       }
 
+      // Cập nhật màu ô custom
+      const picker = input.closest(".ff-color-picker-dot");
+
+      if (picker) {
+        picker.style.background = input.value;
+
+        const icon = picker.querySelector("span");
+
+        if (icon) {
+          icon.style.display = "none";
+        }
+      }
+
       document.querySelectorAll("[data-color]").forEach((b) => {
         b.classList.remove("ring-2", "ring-offset-2");
       });
@@ -724,6 +737,22 @@ async function initDecksPage() {
   bindDeckSearch();
 }
 
+function resetCustomDeckColorPicker() {
+  const selectedColor = document.getElementById("selectedColor");
+  if (selectedColor) selectedColor.value = "#994700";
+
+  const customDeckColor = document.getElementById("customDeckColor");
+  if (customDeckColor) customDeckColor.value = "#994700";
+
+  const picker = document.querySelector(".ff-color-picker-dot");
+
+  if (picker) {
+    picker.style.background = "";
+    const icon = picker.querySelector("span");
+    if (icon) icon.style.display = "";
+  }
+}
+
 function bindCreateDeckForm() {
   const createDeckForm = document.getElementById("createDeckForm");
 
@@ -756,6 +785,7 @@ function bindCreateDeckForm() {
 
       closeModal("createDeckModal");
       createDeckForm.reset();
+      resetCustomDeckColorPicker();
 
       showToast("Deck created!", "success");
 
