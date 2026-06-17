@@ -2163,13 +2163,14 @@ function renderCards(cards) {
   if (!cards.length) {
   const empty = document.createElement("div");
   empty.className = "ff-card";
+  empty.id = "emptyCardsMessage";
 
   empty.innerHTML = `
     <h3 style="margin:0 0 8px;font-size:24px;font-weight:800;">
-      Set này chưa có flashcard
+      This set has no flashcards yet.
     </h3>
     <p style="margin:0;color:var(--on-surface-variant);">
-      Bấm nút + bên dưới để thêm card đầu tiên.
+      Click "+" to add your first card.
     </p>
   `;
 
@@ -2414,6 +2415,7 @@ function bindInlineAddCardEvents() {
 }
 
 function addInlineCardRow() {
+  document.getElementById("emptyCardsMessage")?.classList.add("hidden");
   const area = document.getElementById("inlineAddCardArea");
   if (!area) return;
 
@@ -2502,6 +2504,10 @@ function addInlineCardRow() {
     const stillHasNewRows = document.querySelectorAll("[data-new-card-row]").length > 0;
     if (!stillHasNewRows) {
       document.getElementById("saveInlineCardsBtn")?.classList.add("hidden");
+
+      if (!allCardsCache.length) {
+        document.getElementById("emptyCardsMessage")?.classList.remove("hidden");
+      }
     }
   });
 
