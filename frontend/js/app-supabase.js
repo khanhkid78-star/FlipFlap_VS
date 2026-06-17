@@ -2657,6 +2657,33 @@ async function saveAllCardsInSet() {
 // STUDY - study-session.html
 // ============================================================
 
+function bindStudyShortcuts() {
+  if (document.body.dataset.studyShortcutsBound === "true") return;
+  document.body.dataset.studyShortcutsBound = "true";
+
+  document.addEventListener("keydown", (e) => {
+    if (getCurrentPage() !== "study-session.html") return;
+
+    const tag = document.activeElement?.tagName?.toLowerCase();
+    if (tag === "input" || tag === "textarea" || tag === "select") return;
+
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      document.getElementById("incorrectBtn")?.click();
+    }
+
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      document.getElementById("correctBtn")?.click();
+    }
+
+    if (e.key === "Enter") {
+      e.preventDefault();
+      document.getElementById("finishStudyBtn")?.click();
+    }
+  });
+}
+
 async function initStudySession() {
   const deckId = getParam("deckId");
   const setId = getParam("setId");
@@ -2684,6 +2711,7 @@ async function initStudySession() {
     isAnswerShown = false;
 
     bindStudyButtons();
+    bindStudyShortcuts();
 
     if (!studyCards.length) {
       const studyArea = document.getElementById("studyArea");
