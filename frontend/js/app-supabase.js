@@ -897,11 +897,6 @@ function renderDecks(decks, options = {}) {
       <p style="margin:0 0 18px;color:var(--on-surface-variant);">
         Create your first deck to start learning flashcards.
       </p>
-      <button
-        data-modal-open="createDeckModal"
-        class="ff-btn ff-btn-primary">
-        Create Deck
-      </button>
     `;
 
     container.appendChild(empty);
