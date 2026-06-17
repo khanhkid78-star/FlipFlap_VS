@@ -1721,10 +1721,14 @@ function renderFoldersAndSets(deck, folders, sets) {
               </div>
             `
             : `
-              <div class="ff-card" style="box-shadow:none;">
-                <p style="margin:0;color:var(--on-surface-variant);">
-                  Folder này chưa có set. Bấm Create Set để thêm.
-                </p>
+              <div class="ff-empty-set-add">
+                <button
+                  type="button"
+                  class="ff-add-set-circle"
+                  data-add-set-empty-folder="${folder.id}"
+                  title="Create set in this folder">
+                  <span class="material-symbols-outlined">add</span>
+                </button>
               </div>
             `
         }
@@ -1879,6 +1883,22 @@ function renderFoldersAndSets(deck, folders, sets) {
       } catch (err) {
         showToast(err.message, "error");
       }
+    });
+  });
+
+  // Add set from empty folder
+  document.querySelectorAll("[data-add-set-empty-folder]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const setFolderInput = document.getElementById("setFolderId");
+
+      if (setFolderInput) {
+        setFolderInput.value = btn.dataset.addSetEmptyFolder;
+      }
+
+      openModal("createSetModal");
     });
   });
 

@@ -946,6 +946,34 @@ a {
   margin-top: 4px;
 }
 
+.ff-empty-set-add {
+  min-height: 96px;
+  border: 1px dashed var(--outline-variant);
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-lowest);
+}
+
+.ff-add-set-circle {
+  width: 54px;
+  height: 54px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--primary-container);
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ff-add-set-circle:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
 /* ============================================================
    CARDS PAGE / BULK EDIT
 ============================================================ */
