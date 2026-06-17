@@ -465,6 +465,38 @@ function bindCommonEvents() {
     });
   });
 
+
+  document.querySelectorAll(".ff-search input").forEach((input) => {
+    if (input.dataset.clearBound === "true") return;
+    input.dataset.clearBound = "true";
+
+    const searchBox = input.closest(".ff-search");
+    if (!searchBox) return;
+
+    const clearBtn = document.createElement("button");
+    clearBtn.type = "button";
+    clearBtn.className = "ff-search-clear";
+    clearBtn.title = "Clear search";
+    clearBtn.innerHTML = `<span class="material-symbols-outlined">close</span>`;
+
+    searchBox.appendChild(clearBtn);
+
+    function syncClearButton() {
+      searchBox.classList.toggle("has-value", input.value.trim().length > 0);
+    }
+
+    input.addEventListener("input", syncClearButton);
+
+    clearBtn.addEventListener("click", () => {
+      input.value = "";
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.focus();
+      syncClearButton();
+    });
+
+    syncClearButton();
+  });
+
   const themeButtons = document.querySelectorAll(
     "[data-icon='contrast'], [data-theme-toggle]"
   );

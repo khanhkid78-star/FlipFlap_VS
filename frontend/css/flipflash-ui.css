@@ -123,6 +123,40 @@ a {
   box-shadow: 0 0 0 2px var(--primary);
 }
 
+.ff-search-clear {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--on-surface-variant);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ff-search-clear:hover {
+  background: var(--surface-container-high);
+  color: var(--primary);
+}
+
+.ff-search-clear .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.ff-search.has-value input {
+  padding-right: 52px;
+}
+
+.ff-search.has-value .ff-search-clear {
+  display: inline-flex;
+}
+
 .ff-top-actions {
   display: flex;
   align-items: center;
