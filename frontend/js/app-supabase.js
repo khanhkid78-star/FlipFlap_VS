@@ -2677,6 +2677,13 @@ function bindStudyShortcuts() {
       document.getElementById("correctBtn")?.click();
     }
 
+    if (e.code === "Space") {
+      e.preventDefault();
+
+      document.getElementById("studyCard")?.click();
+      
+    }
+
     if (e.key === "Enter") {
       e.preventDefault();
       document.getElementById("finishStudyBtn")?.click();
