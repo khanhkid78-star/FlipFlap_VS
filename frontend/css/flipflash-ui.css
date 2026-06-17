@@ -559,6 +559,37 @@ a {
 }
 
 /* ============================================================
+   COLOR PICKER DOT
+=============================================================
+*/
+
+.ff-color-picker-dot {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.ff-color-picker-dot input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.ff-color-picker-dot span {
+  font-size: 22px;
+  text-shadow: 0 1px 3px rgba(0,0,0,.45);
+}
+
+/* ============================================================
    INTERACTION / HOVER POLISH
 ============================================================ */
 

@@ -435,6 +435,23 @@ function bindCommonEvents() {
     });
   });
 
+  document.querySelectorAll("#customDeckColor").forEach((input) => {
+    if (input.dataset.bound === "true") return;
+    input.dataset.bound = "true";
+
+    input.addEventListener("input", () => {
+      const selectedColor = document.getElementById("selectedColor");
+
+      if (selectedColor) {
+        selectedColor.value = input.value;
+      }
+
+      document.querySelectorAll("[data-color]").forEach((b) => {
+        b.classList.remove("ring-2", "ring-offset-2");
+      });
+    });
+  });
+
   const themeButtons = document.querySelectorAll(
     "[data-icon='contrast'], [data-theme-toggle]"
   );
