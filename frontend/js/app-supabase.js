@@ -1594,6 +1594,16 @@ function renderFoldersAndSets(deck, folders, sets) {
         </span>
 
         <span class="ff-folder-action-cluster">
+            
+            <span
+              role="button"
+              tabindex="0"
+              class="ff-mini-icon-btn"
+              data-study-folder="${folder.id}"
+              title="Study folder">
+              <span class="material-symbols-outlined">school</span>
+            </span>
+
             <span
             role="button"
             tabindex="0"
@@ -1717,6 +1727,7 @@ function renderFoldersAndSets(deck, folders, sets) {
   // Toggle folder expand / collapse
   document.querySelectorAll("[data-toggle-folder]").forEach((btn) => {
   btn.addEventListener("click", (e) => {
+    if (e.target.closest("[data-study-folder]")) return;
     if (e.target.closest("[data-edit-folder]")) return;
     if (e.target.closest("[data-delete-folder]")) return;
     if (e.target.closest("[data-folder-chevron]")) {
@@ -1769,6 +1780,18 @@ function renderFoldersAndSets(deck, folders, sets) {
       e.stopPropagation();
 
       window.location.href = `study-session.html?deckId=${deck.id}&setId=${btn.dataset.studySet}`;
+    });
+  });
+
+
+  // Study folder
+  document.querySelectorAll("[data-study-folder]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      window.location.href =
+        `study-session.html?deckId=${deck.id}&folderId=${btn.dataset.studyFolder}`;
     });
   });
 
