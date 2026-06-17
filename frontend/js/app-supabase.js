@@ -1724,6 +1724,25 @@ function renderFoldersAndSets(deck, folders, sets) {
     container.appendChild(section);
   });
 
+  const addFolderArea = document.createElement("div");
+  addFolderArea.className = "ff-inline-add-area";
+
+  addFolderArea.innerHTML = `
+    <button
+      type="button"
+      class="ff-add-card-circle"
+      data-modal-open="createFolderModal"
+      title="Create folder">
+      <span class="material-symbols-outlined">add</span>
+    </button>
+  `;
+
+  container.appendChild(addFolderArea);
+
+  addFolderArea.querySelector("[data-modal-open]")?.addEventListener("click", () => {
+    openModal("createFolderModal");
+  });
+
   // Toggle folder expand / collapse
   document.querySelectorAll("[data-toggle-folder]").forEach((btn) => {
   btn.addEventListener("click", (e) => {
