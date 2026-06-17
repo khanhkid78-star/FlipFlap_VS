@@ -238,7 +238,19 @@ function closeModal(id) {
 }
 
 function openModal(id) {
-  document.getElementById(id)?.classList.remove("hidden");
+  const modal = document.getElementById(id);
+  if (!modal) return;
+
+  modal.classList.remove("hidden");
+
+  requestAnimationFrame(() => {
+    const input = modal.querySelector("[data-autofocus]");
+
+    if (input) {
+      input.focus();
+      input.select?.();
+    }
+  });
 }
 
 // ============================================================
