@@ -1663,6 +1663,16 @@ function renderFoldersAndSets(deck, folders, sets) {
                             </h4>
 
                             <div class="ff-set-icon-actions">
+
+                            <button
+                              type="button"
+                              class="ff-mini-icon-btn"
+                              data-add-set-after="${set.id}"
+                              data-folder-id="${folder.id}"
+                              title="Create set in this folder">
+                              <span class="material-symbols-outlined">add</span>
+                            </button>
+
                             <button
                                 type="button"
                                 class="ff-mini-icon-btn"
@@ -1869,6 +1879,22 @@ function renderFoldersAndSets(deck, folders, sets) {
       } catch (err) {
         showToast(err.message, "error");
       }
+    });
+  });
+
+  // Add set from folder
+  document.querySelectorAll("[data-add-set-after]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      const folderId = btn.dataset.folderId;
+      const setFolderInput = document.getElementById("setFolderId");
+
+      if (setFolderInput) {
+        setFolderInput.value = folderId;
+      }
+
+      openModal("createSetModal");
     });
   });
 
