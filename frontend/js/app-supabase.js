@@ -2680,7 +2680,7 @@ function bindStudyShortcuts() {
     if (e.code === "Space") {
       e.preventDefault();
 
-      document.getElementById("studyCard")?.click();
+      document.getElementById("studyFlipCard")?.click();
       
     }
 
