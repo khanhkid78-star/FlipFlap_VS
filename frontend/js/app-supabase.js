@@ -23,6 +23,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   bindAuthTabs();
   bindEditDeckForm();
 
+  const cachedProfile = localStorage.getItem("flipflash-profile");
+
+  if (cachedProfile) {
+    try {
+      renderUserProfile(JSON.parse(cachedProfile), null);
+    } catch (_) {}
+  }
+
   try {
     currentSession = await getSessionOrNull();
 
@@ -34,8 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     currentUser = currentSession.user;
 
     const profileResult = await api("ensureProfile", {
-        username: currentUser.email?.split("@")[0] || "Scholar",
-        email: currentUser.email,
+      email: currentUser.email,
     });
 
     renderUserProfile(profileResult.user, currentUser);
@@ -296,6 +303,11 @@ async function signUp(email, password, username) {
   const { data, error } = await supabaseClient.auth.signUp({
     email,
     password,
+    options: {
+      data: {
+        username: username || email.split("@")[0],
+      },
+    },
   });
 
   if (error) throw error;
@@ -598,6 +610,11 @@ function renderUserProfile(profile, user) {
         profile.username || "Flip Flash"
       )}&background=ffdbc8&color=994700`;
   }
+
+  localStorage.setItem(
+    "flipflash-profile",
+    JSON.stringify(profile)
+  );
 }
 
 // ============================================================

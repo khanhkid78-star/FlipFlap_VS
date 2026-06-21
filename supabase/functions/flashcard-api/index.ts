@@ -62,56 +62,61 @@ Deno.serve(async (req) => {
     // ========================================================
 
     if (action === "ensureProfile") {
-    const username = body.username || user.email?.split("@")[0] || "Scholar";
-    const email = body.email || user.email;
+      const email = body.email || user.email;
 
-    if (!email) {
+      const username =
+        body.username ||
+        user.user_metadata?.username ||
+        user.email?.split("@")[0] ||
+        "Scholar";
+
+      if (!email) {
         return json({ error: "Email is required" }, 400);
-    }
+      }
 
-    const { data: existingUser, error: selectError } = await supabaseAdmin
+      const { data: existingUser, error: selectError } = await supabaseAdmin
         .from("users")
         .select("*")
         .eq("id", userId)
         .maybeSingle();
 
-    if (selectError) throw selectError;
+      if (selectError) throw selectError;
 
-    if (existingUser) {
+      if (existingUser) {
         const { data, error } = await supabaseAdmin
-        .from("users")
-        .update({
-            username,
+          .from("users")
+          .update({
             email,
-        })
-        .eq("id", userId)
-        .select()
-        .single();
+            updated_at: new Date().toISOString(),
+          })
+          .eq("id", userId)
+          .select()
+          .single();
 
         if (error) throw error;
 
         return json({ user: data });
-    }
+      }
 
-  const { data, error } = await supabaseAdmin
-    .from("users")
-    .insert({
-      id: userId,
-      username,
-      email,
-      level: 1,
-      xp: 0,
-      study_streak: 0,
-      total_cards_mastered: 0,
-      total_study_hours: 0,
-    })
-    .select()
-    .single();
+      const { data, error } = await supabaseAdmin
+        .from("users")
+        .insert({
+          id: userId,
+          username,
+          email,
+          level: 1,
+          xp: 0,
+          study_streak: 0,
+          total_cards_mastered: 0,
+          total_study_hours: 0,
+        })
+        .select()
+        .single();
 
-  if (error) throw error;
+      if (error) throw error;
 
-  return json({ user: data });
-}
+      return json({ user: data });
+  }
 
     if (action === "updateProfile") {
       const { username, avatar_url } = body;
