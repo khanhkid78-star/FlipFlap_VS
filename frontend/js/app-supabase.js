@@ -261,19 +261,13 @@ function openModal(id) {
 }
 
 function goToPage(url) {
-  let overlay = document.querySelector(".ff-page-transition");
+  if (!url) return;
 
-  if (!overlay) {
-    overlay = document.createElement("div");
-    overlay.className = "ff-page-transition";
-    document.body.appendChild(overlay);
-  }
-
-  overlay.classList.add("is-active");
+  document.body.classList.add("ff-page-leaving");
 
   setTimeout(() => {
     window.location.href = url;
-  }, 180);
+  }, 120);
 }
 
 // ============================================================

@@ -593,23 +593,14 @@ a {
   }
 }
 
-/* PAGE TRANSITION */
+/* PAGE TRANSITION - safe fade, no overlay rectangle */
 
-.ff-page-transition {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100dvh;
-  z-index: 99999;
-  background: var(--background, #fff8f5);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.16s ease;
+body {
+  transition: opacity 0.12s ease;
 }
 
-.ff-page-transition.is-active {
-  opacity: 1;
-  pointer-events: auto;
+body.ff-page-leaving {
+  opacity: 0;
 }
 
 .ff-main {
