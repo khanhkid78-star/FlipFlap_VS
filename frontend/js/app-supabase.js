@@ -2768,7 +2768,7 @@ async function initStudySession() {
               class="ff-btn ff-btn-primary ff-study-empty-btn"
               onclick="history.back()">
               <span class="material-symbols-outlined">arrow_back</span>
-              Quay lại
+              Return
             </button>
           </div>
         `;
