@@ -598,11 +598,13 @@ a {
 .ff-page-transition {
   position: fixed;
   inset: 0;
+  width: 100vw;
+  height: 100dvh;
   z-index: 99999;
   background: var(--background, #fff8f5);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.18s ease;
+  transition: opacity 0.16s ease;
 }
 
 .ff-page-transition.is-active {
@@ -610,21 +612,20 @@ a {
   pointer-events: auto;
 }
 
-body {
-  animation: ffPageIn 0.18s ease both;
+.ff-main {
+  animation: ffMainIn 0.16s ease both;
 }
 
-@keyframes ffPageIn {
+@keyframes ffMainIn {
   from {
     opacity: 0;
-    transform: translateY(6px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
+
 
 /* ============================================================
    COLOR PICKER DOT
