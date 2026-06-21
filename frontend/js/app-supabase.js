@@ -260,6 +260,22 @@ function openModal(id) {
   });
 }
 
+function goToPage(url) {
+  let overlay = document.querySelector(".ff-page-transition");
+
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.className = "ff-page-transition";
+    document.body.appendChild(overlay);
+  }
+
+  overlay.classList.add("is-active");
+
+  setTimeout(() => {
+    window.location.href = url;
+  }, 180);
+}
+
 // ============================================================
 // AUTH
 // ============================================================
@@ -422,7 +438,7 @@ function bindCommonEvents() {
     el.dataset.bound = "true";
 
     el.addEventListener("click", () => {
-      window.location.href = el.dataset.nav;
+      goToPage(el.dataset.nav);
     });
   });
 
@@ -1092,14 +1108,14 @@ function renderDecks(decks, options = {}) {
 
   document.querySelectorAll(".ff-deck-card[data-open-deck]").forEach((card) => {
   card.addEventListener("click", () => {
-    window.location.href = `deck-details.html?id=${card.dataset.openDeck}`;
+    goToPage(`deck-details.html?id=${card.dataset.openDeck}`);
     });
   });
 
   document.querySelectorAll("[data-study-deck]").forEach((btn) => {
   btn.addEventListener("click", (e) => {
     e.stopPropagation();
-    window.location.href = `study-session.html?deckId=${btn.dataset.studyDeck}`;
+    goToPage(`study-session.html?deckId=${btn.dataset.studyDeck}`);
     });
   });
 
@@ -1296,7 +1312,7 @@ async function initDeckDetails() {
 
   if (!deckId) {
     showToast("Thiếu deckId.", "error");
-    window.location.href = "decks.html";
+    goToPage("decks.html");
     return;
   }
 
@@ -2925,7 +2941,7 @@ async function reviewCurrentCard(isCorrect) {
 
 async function finishStudy() {
   if (!studySessionId) {
-    window.location.href = "recent.html";
+    goToPage("recent.html");
     return;
   }
 

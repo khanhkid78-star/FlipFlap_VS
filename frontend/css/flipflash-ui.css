@@ -593,6 +593,39 @@ a {
   }
 }
 
+/* PAGE TRANSITION */
+
+.ff-page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: var(--background, #fff8f5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+}
+
+.ff-page-transition.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body {
+  animation: ffPageIn 0.18s ease both;
+}
+
+@keyframes ffPageIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ============================================================
    COLOR PICKER DOT
 =============================================================
