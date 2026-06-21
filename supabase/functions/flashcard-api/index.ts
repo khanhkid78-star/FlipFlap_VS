@@ -1181,6 +1181,16 @@ async function syncAchievements(supabaseAdmin: any, userId: string) {
     .select("*", { count: "exact", head: true })
     .eq("user_id", userId);
 
+  const { count: folderCount } = await supabaseAdmin
+    .from("folders")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", userId);
+
+  const { count: setCount } = await supabaseAdmin
+    .from("sets")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", userId);
+
   const { count: cardCount } = await supabaseAdmin
     .from("cards")
     .select("*", { count: "exact", head: true })
@@ -1197,6 +1207,44 @@ async function syncAchievements(supabaseAdmin: any, userId: string) {
     .select("*", { count: "exact", head: true })
     .eq("user_id", userId)
     .not("ended_at", "is", null);
+
+  const { data: sessions, error: sessionsError } = await supabaseAdmin
+    .from("study_sessions")
+    .select("cards_studied, cards_correct, cards_incorrect, duration_seconds, xp_earned")
+    .eq("user_id", userId)
+    .not("ended_at", "is", null);
+
+  if (sessionsError) throw sessionsError;
+
+  const totalCardsStudied = (sessions || []).reduce(
+    (sum: number, session: any) => sum + Number(session.cards_studied || 0),
+    0
+  );
+
+  const totalCorrect = (sessions || []).reduce(
+    (sum: number, session: any) => sum + Number(session.cards_correct || 0),
+    0
+  );
+
+  const totalXp = (sessions || []).reduce(
+    (sum: number, session: any) => sum + Number(session.xp_earned || 0),
+    0
+  );
+
+  const totalStudyMinutes = Math.round(
+    (sessions || []).reduce(
+      (sum: number, session: any) => sum + Number(session.duration_seconds || 0),
+      0
+    ) / 60
+  );
+
+  const perfectSessionCount = (sessions || []).filter((session: any) => {
+    const studied = Number(session.cards_studied || 0);
+    const correct = Number(session.cards_correct || 0);
+    const incorrect = Number(session.cards_incorrect || 0);
+
+    return studied > 0 && incorrect === 0 && correct >= studied;
+  }).length;
 
   const definitions = [
     {
@@ -1231,10 +1279,102 @@ async function syncAchievements(supabaseAdmin: any, userId: string) {
       progress: masteredCount || 0,
       target: 10,
     },
+
+    // 8 achievements mới
+    {
+      badge_key: "deck_collector",
+      badge_name: "Deck Collector",
+      badge_description: "Create 5 decks.",
+      badge_icon: "inventory_2",
+      progress: deckCount || 0,
+      target: 5,
+    },
+    {
+      badge_key: "folder_architect",
+      badge_name: "Folder Architect",
+      badge_description: "Create 10 folders.",
+      badge_icon: "folder_managed",
+      progress: folderCount || 0,
+      target: 10,
+    },
+    {
+      badge_key: "set_architect",
+      badge_name: "Set Architect",
+      badge_description: "Create 20 study sets.",
+      badge_icon: "category",
+      progress: setCount || 0,
+      target: 20,
+    },
+    {
+      badge_key: "flashcard_library",
+      badge_name: "Flashcard Library",
+      badge_description: "Create 50 flashcards.",
+      badge_icon: "auto_stories",
+      progress: cardCount || 0,
+      target: 50,
+    },
+    {
+      badge_key: "study_grinder",
+      badge_name: "Study Grinder",
+      badge_description: "Finish 25 study sessions.",
+      badge_icon: "local_fire_department",
+      progress: sessionCount || 0,
+      target: 25,
+    },
+    {
+      badge_key: "hundred_reviews",
+      badge_name: "Hundred Reviews",
+      badge_description: "Study 100 cards in total.",
+      badge_icon: "repeat",
+      progress: totalCardsStudied,
+      target: 100,
+    },
+    {
+      badge_key: "accuracy_ace",
+      badge_name: "Accuracy Ace",
+      badge_description: "Answer 100 cards correctly.",
+      badge_icon: "check_circle",
+      progress: totalCorrect,
+      target: 100,
+    },
+    {
+      badge_key: "xp_hunter",
+      badge_name: "XP Hunter",
+      badge_description: "Earn 1,000 XP.",
+      badge_icon: "bolt",
+      progress: totalXp,
+      target: 1000,
+    },
+    {
+      badge_key: "deep_focus",
+      badge_name: "Deep Focus",
+      badge_description: "Study for 120 minutes in total.",
+      badge_icon: "timer",
+      progress: totalStudyMinutes,
+      target: 120,
+    },
+    {
+      badge_key: "perfect_streak",
+      badge_name: "Perfect Streak",
+      badge_description: "Finish 5 perfect study sessions.",
+      badge_icon: "verified",
+      progress: perfectSessionCount,
+      target: 5,
+    },
   ];
+
+  const { data: existingAchievements } = await supabaseAdmin
+    .from("achievements")
+    .select("badge_key, is_unlocked, unlocked_at")
+    .eq("user_id", userId);
+
+  const existingMap = new Map(
+    (existingAchievements || []).map((item: any) => [item.badge_key, item])
+  );
 
   const rows = definitions.map((badge) => {
     const unlocked = badge.progress >= badge.target;
+    const existing = existingMap.get(badge.badge_key);
 
     return {
       user_id: userId,
@@ -1245,7 +1385,9 @@ async function syncAchievements(supabaseAdmin: any, userId: string) {
       progress: badge.progress,
       target: badge.target,
       is_unlocked: unlocked,
-      unlocked_at: unlocked ? new Date().toISOString() : null,
+      unlocked_at: unlocked
+        ? existing?.unlocked_at || new Date().toISOString()
+        : null,
     };
   });
 
