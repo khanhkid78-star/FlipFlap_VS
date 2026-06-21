@@ -1308,6 +1308,53 @@ body.ff-page-leaving {
   padding: 12px 20px;
 }
 
+.ff-study-empty-card {
+  width: min(560px, calc(100vw - 48px));
+  margin: 48px auto 0;
+  padding: 34px 32px;
+  border-radius: 28px;
+  border: 1px solid var(--outline-variant);
+  background: var(--surface-lowest);
+  box-shadow: 0 18px 48px rgba(153, 71, 0, 0.12);
+  text-align: center;
+}
+
+.ff-study-empty-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 18px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-container);
+  color: var(--primary);
+}
+
+.ff-study-empty-icon .material-symbols-outlined {
+  font-size: 40px;
+}
+
+.ff-study-empty-card h2 {
+  margin: 0 0 10px;
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 900;
+  color: var(--on-surface);
+}
+
+.ff-study-empty-card p {
+  max-width: 420px;
+  margin: 0 auto 24px;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--on-surface-variant);
+}
+
+.ff-study-empty-btn {
+  min-width: 150px;
+}
+
 /* ============================================================
    RESPONSIVE
 ============================================================ */

@@ -1337,7 +1337,7 @@ async function initDeckDetails() {
           icon: "folder",
         });
 
-        showToast("Đã tạo folder.", "success");
+        showToast("Folder created.", "success");
 
         createFolderForm.reset();
         closeModal("createFolderModal");
@@ -1362,12 +1362,12 @@ async function initDeckDetails() {
       const description = document.getElementById("setDesc")?.value?.trim() || "";
 
       if (!folderId) {
-        showToast("Vui lòng chọn folder.", "error");
+        showToast("Please select a folder.", "error");
         return;
       }
 
       if (!name) {
-        showToast("Vui lòng nhập tên set.", "error");
+        showToast("Please enter a name for the set.", "error");
         return;
       }
 
@@ -1381,7 +1381,7 @@ async function initDeckDetails() {
           icon: "style",
         });
 
-        showToast("Đã tạo set.", "success");
+        showToast("Set created.", "success");
 
         createSetForm.reset();
         closeModal("createSetModal");
@@ -1406,7 +1406,7 @@ if (editFolderForm && editFolderForm.dataset.bound !== "true") {
     const description = document.getElementById("editFolderDesc")?.value?.trim() || "";
 
     if (!folderId || !name) {
-      showToast("Thiếu thông tin folder.", "error");
+      showToast("Please provide a folder name.", "error");
       return;
     }
 
@@ -1417,7 +1417,7 @@ if (editFolderForm && editFolderForm.dataset.bound !== "true") {
       });
 
       closeModal("editFolderModal");
-      showToast("Đã cập nhật folder.", "success");
+      showToast("Folder updated.", "success");
 
       await loadDeckBundleAndRender(deckId);
     } catch (err) {
@@ -1439,7 +1439,7 @@ if (editSetForm && editSetForm.dataset.bound !== "true") {
     const description = document.getElementById("editSetDesc")?.value?.trim() || "";
 
     if (!setId || !name) {
-      showToast("Thiếu thông tin set.", "error");
+      showToast("Please provide a name for the set.", "error");
       return;
     }
 
@@ -1450,7 +1450,7 @@ if (editSetForm && editSetForm.dataset.bound !== "true") {
       });
 
       closeModal("editSetModal");
-      showToast("Đã cập nhật set.", "success");
+      showToast("Set updated.", "success");
 
       await loadDeckBundleAndRender(deckId);
       const focusFolderId = getParam("focusFolder");
@@ -2752,16 +2752,22 @@ async function initStudySession() {
 
       if (studyArea) {
         studyArea.innerHTML = `
-          <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg text-center">
-            <h2 class="font-bold text-headline-md mb-sm">
-              Set này chưa có card
-            </h2>
-            <p class="text-on-surface-variant mb-md">
-              Hãy thêm flashcard trước khi học.
+          <div class="ff-study-empty-card">
+            <div class="ff-study-empty-icon">
+              <span class="material-symbols-outlined">style</span>
+            </div>
+
+            <h2>No cards available</h2>
+
+            <p>
+              Please add flashcards to this deck/folder/set before starting to study.
             </p>
+
             <button
-              onclick="history.back()"
-              class="bg-primary text-white px-md py-sm rounded-full font-bold">
+              type="button"
+              class="ff-btn ff-btn-primary ff-study-empty-btn"
+              onclick="history.back()">
+              <span class="material-symbols-outlined">arrow_back</span>
               Quay lại
             </button>
           </div>
