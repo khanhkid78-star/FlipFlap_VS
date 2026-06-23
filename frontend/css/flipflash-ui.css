@@ -2295,3 +2295,13 @@ html.dark .ff-btn-soft {
   background: #3a261d;
   color: #fff8f5;
 }
+
+html.dark #incorrectBtn .material-symbols-outlined {
+  color: #7a120f !important;
+  font-weight: 800;
+}
+
+html.dark #correctBtn .material-symbols-outlined {
+  color: #075c2a !important;
+  font-weight: 800;
+}
