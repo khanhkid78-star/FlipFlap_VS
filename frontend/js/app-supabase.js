@@ -531,27 +531,41 @@ function bindCommonEvents() {
     syncClearButton();
   });
 
-  const themeButtons = document.querySelectorAll(
-    "[data-icon='contrast'], [data-theme-toggle]"
-  );
+  function applyTheme(theme) {
+    const isDark = theme === "dark";
 
-  themeButtons.forEach((btn) => {
-    if (btn.dataset.bound === "true") return;
-    btn.dataset.bound = "true";
+    document.documentElement.classList.toggle("dark", isDark);
+    document.documentElement.classList.toggle("light", !isDark);
+
+    document.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
+      btn.setAttribute(
+        "aria-label",
+        isDark ? "Switch to light mode" : "Switch to dark mode"
+      );
+
+      const icon = btn.querySelector(".material-symbols-outlined");
+
+      if (icon) {
+        icon.textContent = isDark ? "light_mode" : "dark_mode";
+      }
+    });
+  }
+
+  applyTheme(localStorage.getItem("flipflash-theme") || "light");
+
+  document.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
+    if (btn.dataset.themeBound === "true") return;
+    btn.dataset.themeBound = "true";
 
     btn.addEventListener("click", () => {
-      document.documentElement.classList.toggle("dark");
+      const nextTheme = document.documentElement.classList.contains("dark")
+        ? "light"
+        : "dark";
 
-      localStorage.setItem(
-        "flipflash-theme",
-        document.documentElement.classList.contains("dark") ? "dark" : "light"
-      );
+      localStorage.setItem("flipflash-theme", nextTheme);
+      applyTheme(nextTheme);
     });
   });
-
-  if (localStorage.getItem("flipflash-theme") === "dark") {
-    document.documentElement.classList.add("dark");
-  }
 }
 
 // ============================================================

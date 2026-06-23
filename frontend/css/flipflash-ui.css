@@ -19,6 +19,42 @@
   --success: #16a34a;
 }
 
+html.dark {
+  --primary: #ffb783;
+  --primary-container: #733500;
+  --on-primary-container: #ffdbc8;
+
+  --surface: #17100c;
+  --surface-lowest: #211813;
+  --surface-low: #2a1d17;
+  --surface-container: #34231b;
+  --surface-variant: #4a3428;
+
+  --outline: #cfae9c;
+  --outline-variant: #6b4d3f;
+
+  --on-surface: #fff8f5;
+  --on-surface-variant: #e8cfc2;
+
+  --error: #ffb4ab;
+  --success: #86efac;
+}
+
+html,
+body,
+.ff-topbar,
+.ff-sidebar,
+.ff-card,
+.ff-toolbar,
+.ff-btn,
+.ff-search input {
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
 * {
   box-sizing: border-box;
 }
