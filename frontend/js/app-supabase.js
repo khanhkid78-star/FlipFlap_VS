@@ -399,11 +399,19 @@ function bindCommonEvents() {
       }
 
       try {
-        await signUp(email, password, username);
-        showToast(
-          "Sign up successfully. If you have a verification email request, please check your inbox.",
-          "success"
-        );
+        const data = await signUp(email, password, username);
+
+        showToast("Account created successfully.", "success");
+
+        if (data.session) {
+          goToPage("index.html");
+        } else {
+          showToast(
+            "Please check your email to verify your account, then sign in.",
+            "success"
+          );
+          goToPage("index.html");
+        }
       } catch (err) {
         showToast(err.message, "error");
       }
