@@ -2269,26 +2269,15 @@ body.ff-page-leaving {
 
 
 /* DARK MODE CONTRAST FIX */
-html.dark .ff-study-card,
-html.dark .ff-study-face,
-html.dark .ff-study-front,
-html.dark .ff-study-back {
-  background: #fff8f5;
-  color: #251912;
-  border-color: #ffb783;
-}
-
-html.dark .ff-study-label {
-  color: #994700;
-  font-weight: 900;
-  opacity: 1;
-}
-
-html.dark .ff-study-text,
-html.dark .ff-study-answer {
+html.dark .ff-study-back .ff-study-answer {
   color: #251912 !important;
   opacity: 1;
   font-weight: 800;
+}
+
+html.dark .ff-study-back .ff-study-label {
+  color: #994700 !important;
+  opacity: 1;
 }
 
 html.dark .ff-btn-primary,
