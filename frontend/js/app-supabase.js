@@ -2984,7 +2984,7 @@ async function finishStudy() {
       durationSeconds,
     });
 
-    showToast("Đã lưu phiên học.", "success");
+    showToast("Session saved.", "success");
 
     window.location.href = "recent.html";
   } catch (err) {
@@ -3035,10 +3035,10 @@ async function initRecentPage() {
         container.innerHTML = `
           <div class="ff-card">
             <h3 style="margin:0 0 8px;font-size:24px;font-weight:800;">
-              Không tìm thấy phiên học nào
+              No study sessions found
             </h3>
             <p style="margin:0;color:var(--on-surface-variant);">
-              Thử tìm bằng tên deck hoặc tên set khác.
+              Try searching with a different deck or set name.
             </p>
           </div>
         `;
@@ -3103,7 +3103,7 @@ async function initRecentPage() {
     container.innerHTML = `
       <div class="ff-card">
         <h3 style="margin:0 0 8px;font-size:22px;font-weight:800;">
-          Không tải được recent sessions
+          Could not load recent sessions
         </h3>
         <p style="margin:0;color:var(--on-surface-variant);">
           ${safeText(err.message)}
@@ -3155,10 +3155,10 @@ async function initAchievementsPage() {
         container.innerHTML = `
           <div class="ff-card" style="grid-column:1/-1;">
             <h3 style="margin:0 0 8px;font-size:24px;font-weight:800;">
-              Không tìm thấy achievement nào
+              No achievements found
             </h3>
             <p style="margin:0;color:var(--on-surface-variant);">
-              Thử tìm bằng tên badge, mô tả hoặc trạng thái unlocked/locked.
+              Try searching with a different badge name, description, or unlocked/locked status.
             </p>
           </div>
         `;
@@ -3247,7 +3247,7 @@ async function initAchievementsPage() {
     container.innerHTML = `
       <div class="ff-card" style="grid-column:1/-1;">
         <h3 style="margin:0 0 8px;font-size:22px;font-weight:800;">
-          Không tải được achievements
+          Could not load achievements
         </h3>
         <p style="margin:0;color:var(--on-surface-variant);">
           ${safeText(err.message)}
