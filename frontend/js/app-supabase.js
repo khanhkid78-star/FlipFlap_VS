@@ -2732,6 +2732,17 @@ function bindStudyShortcuts() {
   });
 }
 
+function shuffleCards(cards) {
+  const shuffled = [...cards];
+
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const randomIndex = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]];
+  }
+
+  return shuffled;
+}
+
 async function initStudySession() {
   const deckId = getParam("deckId");
   const setId = getParam("setId");
@@ -2751,7 +2762,7 @@ async function initStudySession() {
     });
 
     studySessionId = result.session?.id;
-    studyCards = result.cards || [];
+    studyCards = shuffleCards(result.cards || []);
     currentCardIndex = 0;
     studyCorrect = 0;
     studyIncorrect = 0;
