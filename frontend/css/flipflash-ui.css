@@ -2346,3 +2346,91 @@ html.dark .ff-set-card:hover .ff-btn-primary {
   color: #3b1800 !important;
   font-weight: 900;
 }
+
+/* DARK MODE - recent item hover contrast fix */
+
+html.dark .ff-recent-item:hover {
+  background: #fff8f5;
+  border-color: #ffb783;
+}
+
+html.dark .ff-recent-item:hover .ff-recent-title,
+html.dark .ff-recent-item:hover .ff-recent-meta,
+html.dark .ff-recent-item:hover .ff-recent-time {
+  color: #251912 !important;
+  opacity: 1;
+}
+
+html.dark .ff-recent-item:hover .ff-recent-xp {
+  color: #994700 !important;
+  opacity: 1;
+}
+
+html.dark .ff-recent-item:hover .ff-recent-icon {
+  background: #994700;
+  color: #fff8f5;
+}
+
+html.dark .ff-recent-item:hover .ff-recent-icon .material-symbols-outlined {
+  color: #fff8f5 !important;
+}
+
+/* DARK MODE - cards page toolbar and add button contrast */
+
+html.dark .ff-bulk-bar {
+  background: #211813;
+  border-color: #6b4d3f;
+  color: #fff8f5;
+}
+
+html.dark .ff-bulk-bar strong {
+  color: #fff8f5 !important;
+}
+
+html.dark .ff-bulk-bar span {
+  color: #e8cfc2 !important;
+  opacity: 1;
+}
+
+html.dark .ff-bulk-bar .ff-btn-tonal {
+  background: #ffb783;
+  color: #3b1800 !important;
+  font-weight: 900;
+}
+
+html.dark .ff-bulk-bar .ff-btn-soft {
+  background: #3a261d;
+  color: #fff8f5 !important;
+}
+
+/* Empty set message */
+html.dark #emptyCardsMessage {
+  background: #211813;
+  border-color: #6b4d3f;
+  color: #fff8f5;
+}
+
+html.dark #emptyCardsMessage h3 {
+  color: #fff8f5 !important;
+}
+
+html.dark #emptyCardsMessage p {
+  color: #e8cfc2 !important;
+  opacity: 1;
+}
+
+/* Plus button under cards */
+html.dark .ff-add-card-circle {
+  background: #ffb783;
+  color: #3b1800 !important;
+}
+
+html.dark .ff-add-card-circle .material-symbols-outlined {
+  color: #3b1800 !important;
+  font-weight: 900;
+}
+
+html.dark .ff-add-card-circle:hover {
+  background: #ffdbc8;
+  color: #5d2900 !important;
+}
