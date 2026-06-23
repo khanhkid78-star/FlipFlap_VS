@@ -2266,3 +2266,43 @@ body.ff-page-leaving {
 .ff-remove-new-image:hover {
   background: var(--error);
 }
+
+
+/* DARK MODE CONTRAST FIX */
+html.dark .ff-study-card,
+html.dark .ff-study-face,
+html.dark .ff-study-front,
+html.dark .ff-study-back {
+  background: #fff8f5;
+  color: #251912;
+  border-color: #ffb783;
+}
+
+html.dark .ff-study-label {
+  color: #994700;
+  font-weight: 900;
+  opacity: 1;
+}
+
+html.dark .ff-study-text,
+html.dark .ff-study-answer {
+  color: #251912 !important;
+  opacity: 1;
+  font-weight: 800;
+}
+
+html.dark .ff-btn-primary,
+html.dark .ff-btn-tonal {
+  background: #ffb783;
+  color: #3b1800;
+}
+
+html.dark .ff-btn-primary .material-symbols-outlined,
+html.dark .ff-btn-tonal .material-symbols-outlined {
+  color: #3b1800;
+}
+
+html.dark .ff-btn-soft {
+  background: #3a261d;
+  color: #fff8f5;
+}
