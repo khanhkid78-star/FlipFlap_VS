@@ -2305,3 +2305,44 @@ html.dark #correctBtn .material-symbols-outlined {
   color: #075c2a !important;
   font-weight: 800;
 }
+
+/* DARK MODE - set card hover contrast fix */
+
+html.dark .ff-set-card:hover {
+  background: #fff8f5;
+  border-color: #ffb783;
+}
+
+html.dark .ff-set-card:hover .ff-set-title,
+html.dark .ff-set-card:hover .ff-set-meta,
+html.dark .ff-set-card:hover .ff-set-desc {
+  color: #251912 !important;
+  opacity: 1;
+}
+
+html.dark .ff-set-card:hover .ff-set-title .material-symbols-outlined,
+html.dark .ff-set-card:hover .ff-mini-icon-btn,
+html.dark .ff-set-card:hover .ff-mini-icon-btn .material-symbols-outlined {
+  color: #994700 !important;
+}
+
+html.dark .ff-set-card:hover .ff-mini-icon-btn:hover {
+  background: #ffdbc8;
+  color: #5d2900 !important;
+}
+
+html.dark .ff-set-card:hover .ff-mini-icon-btn.danger,
+html.dark .ff-set-card:hover .ff-mini-icon-btn.danger .material-symbols-outlined {
+  color: #ba1a1a !important;
+}
+
+html.dark .ff-set-card:hover .ff-mini-icon-btn.danger:hover {
+  background: #ffdad6;
+  color: #93000a !important;
+}
+
+html.dark .ff-set-card:hover .ff-btn-primary {
+  background: #ffb783;
+  color: #3b1800 !important;
+  font-weight: 900;
+}
