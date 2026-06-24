@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Flip Flash — Free flashcards for studying</title>
+    <meta name="description" content="Flip Flash helps you create, organize, and view flashcards completely free. Learn faster, remember longer."/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <style>
+        :root{
+          --primary:#994700;
+          --primary-dark:#6f3400;
+          --primary-container:#ffdbc8;
+          --on-primary-container:#5d2900;
+          --accent:#1f7a6c;
+          --accent-light:#d8efe9;
+          --surface:#fff8f5;
+          --surface-lowest:#ffffff;
+          --surface-low:#fff1ea;
+          --surface-container:#ffeadf;
+          --outline-variant:#e0c0af;
+          --ink:#251912;
+          --ink-soft:#584235;
+          --success:#16a34a;
+          --shadow-soft:0 4px 20px rgba(94,41,0,0.07);
+          --shadow-lift:0 18px 40px rgba(94,41,0,0.16);
+        }
+        *{box-sizing:border-box;}
+        html{scroll-behavior:smooth;}
+        body{
+          margin:0;
+          background:var(--surface);
+          color:var(--ink);
+          font-family:Montserrat,system-ui,-apple-system,"Segoe UI",sans-serif;
+          line-height:1.5;
+          overflow-x:hidden;
+        }
+        img{
+            max-width:100%;
+            display:block;
+            }
+        a{
+          text-decoration:none;
+          color:inherit;
+          }
+        .material-symbols-outlined{font-variation-settings:"FILL" 0,"wght" 500,"GRAD" 0,"opsz" 24;
+                                   line-height:1;
+                                   }
+        .wrap{
+              max-width:1180px;
+              margin:0 auto;
+              padding:0 24px;
+              }
+        .eyebrow{
+                 margin:0 0 10px;
+                 color:var(--primary);
+                 font-weight:800;
+                 font-size:13px;
+                 letter-spacing:.12em;
+                 text-transform:uppercase;
+        }
+        .section-head{
+                      max-width:620px;
+                      margin:0 0 48px;
+                      }
+        .section-head h2{
+                         margin:0;
+                         font-size:clamp(28px,4vw,40px);
+                         font-weight:800;
+                         line-height:1.18;
+                         letter-spacing:-0.01em;
+                         }
+        .section-head p{
+                        margin:14px 0 0;
+                        color:var(--ink-soft);
+                        font-size:17px;
+                        }
+        section{
+                padding:88px 0;
+                }
+
+
+        .btn{
+          display:inline-flex;
+          align-items:center;
+          justify-content:center;
+          gap:8px;
+          border:0;
+          border-radius:999px;
+          font-weight:800;
+          font-size:15px;
+          padding:0 22px;
+          height:48px;
+          cursor:pointer;
+          white-space:nowrap;
+          transition:transform .18s ease,
+                     box-shadow .18s ease,
+                     background .18s ease;
+        }
+        .btn-lg{
+               height:54px;
+               padding:0 28px;
+               font-size:16px;
+               }
+        .btn-primary{
+                background:var(--primary);
+                color:#fff;
+                box-shadow:0 10px 24px rgba(153,71,0,0.28);
+                }
+        .btn-primary:hover{
+                transform:translateY(-2px);
+                box-shadow:0 14px 30px rgba(153,71,0,0.34);
+                }
+        .btn-ghost{
+                background:transparent;
+                color:var(--ink);
+                border:1.5px solid var(--outline-variant);
+                }
+        .btn-ghost:hover{
+                background:var(--surface-container);
+                }
+        .btn-on-dark{
+                background:#fff;
+                color:var(--primary-dark);
+                }
+        .btn-on-dark:hover{
+                transform:translateY(-2px);
+                box-shadow:0 14px 30px rgba(0,0,0,0.18);
+                }
+
+
+        .nav{
+               position:fixed;top:0;left:0;right:0;z-index:200;
+               height:76px;display:flex;align-items:center;
+               background:rgba(255,248,245,0);
+               transition:background .25s ease, box-shadow .25s ease, height .25s ease;
+              }
+        .nav.scrolled{
+               background:rgba(255,248,245,0.85);
+               backdrop-filter:blur(14px);
+               box-shadow:0 2px 18px rgba(94,41,0,0.06);
+               height:68px;
+               }
+        .nav-inner{
+              width:100%;
+              max-width:1180px;
+              margin:0 auto;
+              padding:0 24px;
+              display:flex;
+              align-items:center;
+              justify-content:space-between;
+              gap:24px;
+              }
+        .brand{
+               display:inline-flex;
+               align-items:center;
+               gap:10px;font-weight:800;
+               font-size:21px;
+               color:var(--primary);
+               transition:color .25s ease;
+               }
+        .brand .material-symbols-outlined{
+             font-size:28px;
+              }
+        .nav .brand{
+             color:#ffffff;
+             }
+        .nav.scrolled .brand{
+             color:var(--primary);
+             }
+        .nav-links{
+                  display:flex;
+                  align-items:center;
+                  gap:30px;
+                  font-weight:700;
+                  font-size:15px;
+                  color:rgba(255,255,255,.92);
+                  transition:color .25s ease;
+                  }
+        .nav-links a:hover{color:#ffffff;}
+        .nav.scrolled .nav-links{color:var(--ink-soft);}
+        .nav.scrolled .nav-links a:hover{color:var(--primary);}
+        .nav-actions{
+                  display:flex;
+                  align-items:center;
+                  gap:10px;
+                  }
+        .nav .btn-ghost{
+                  color:#ffffff;
+                  border-color:rgba(255,255,255,.55);
+                  }
+        .nav .btn-ghost:hover{background:rgba(255,255,255,.16);}
+        .nav.scrolled .btn-ghost{
+                  color:var(--ink);
+                  border-color:var(--outline-variant);
+                  }
+        .nav.scrolled .btn-ghost:hover{background:var(--surface-container);}
+        .nav-burger{
+                  display:none;
+                  background:none;
+                  border:0;width:40px;
+                  height:40px;
+                  color:#ffffff;
+                  transition:color .25s ease;
+                  }
+        .nav.scrolled .nav-burger{color:var(--ink);}
+        .nav-burger .material-symbols-outlined{font-size:28px;}
+
+
+
+
+        .hero{
+          position:relative;min-height:100vh;display:flex;align-items:center;
+          padding:140px 0 80px;overflow:hidden;color:#ffffff;
+        }
+        .hero-bg{
+               position:absolute;
+               inset:0;
+               z-index:0;
+               }
+        .hero-slide{
+               position:absolute;
+               inset:0;
+               opacity:0;
+               transition:opacity 1.1s ease;
+               }
+        .hero-slide.is-active{opacity:1;}
+        .hero-scrim{
+          position:absolute;inset:0;z-index:1;pointer-events:none;
+          background:linear-gradient(180deg, rgba(0,0,0,.34) 0%, rgba(0,0,0,0) 34%, rgba(0,0,0,0) 64%, rgba(0,0,0,.34) 100%);
+        }
+        .blob{
+            position:absolute;
+            border-radius:50%;
+            background:rgba(255,255,255,.14);
+            filter:blur(2px);
+            animation:float 14s ease-in-out infinite alternate;
+            z-index:1;
+            pointer-events:none;
+            }
+        .blob-1{
+            width:340px;
+            height:340px;
+            top:-90px;
+            right:-60px;
+            }
+        .blob-2{
+            width:220px;
+            height:220px;
+            bottom:30px;
+            left:-80px;
+            animation-delay:2s;
+            }
+        @keyframes float{
+            from{transform:translate(0,0) rotate(0deg);}
+            to{transform:translate(18px,26px) rotate(8deg);}
+            }
+
+        .hero-inner{
+            position:relative;
+            z-index:2;
+            width:100%;
+            max-width:1180px;
+            margin:0 auto;
+            padding:0 24px;
+            display:grid;
+            grid-template-columns:1.05fr .95fr;
+            gap:56px;
+            align-items:center;
+            }
+        .slide-chip{
+          display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.16);
+          border:1px solid rgba(255,255,255,.35);color:#fff;font-weight:800;font-size:12px;
+          letter-spacing:.08em;text-transform:uppercase;padding:7px 14px;border-radius:999px;margin-bottom:18px;
+        }
+        .slide-chip .material-symbols-outlined{font-size:16px;}
+        .hero h1{
+            margin:0;
+            font-size:clamp(36px,5.4vw,58px);
+            font-weight:900;
+            line-height:1.08;
+            letter-spacing:-0.015em;
+            color:#fff;
+            }
+        .hero h1 .accent-text{
+            color:var(--primary-container);
+            transition:color .4s ease;
+            }
+        .hero .lead{
+            margin:20px 0 0;
+            font-size:18px;
+            color:rgba(255,255,255,.86);
+            max-width:480px;
+            }
+        .hero-actions{
+            display:flex;
+            flex-wrap:wrap;
+            gap:14px;
+            margin-top:32px;
+            }
+        .trust-row{
+            display:flex;
+            gap:22px;
+            flex-wrap:wrap;
+            margin-top:26px;
+            color:rgba(255,255,255,.82);
+            font-weight:700;
+            font-size:14px;
+            }
+        .trust-row span{
+            display:inline-flex;
+            align-items:center;
+            gap:6px;
+            }
+        .trust-row .material-symbols-outlined{font-size:18px;color:#bdf2c8;}
+        .btn-ghost-light{
+            background:rgba(255,255,255,.1);
+            color:#fff;
+            border:1.5px solid rgba(255,255,255,.55);
+            }
+        .btn-ghost-light:hover{background:rgba(255,255,255,.22);}
+
+
+
+        .hero-arrow{
+          position:absolute; top:50%;z-index:5; width:46px; height:46px; border-radius:50%;
+          background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.4); color:#fff;
+          display:flex; align-items:center; justify-content:center; transform:translateY(-50%);
+          transition:background .2s ease, transform .2s ease; cursor:pointer;
+        }
+        .hero-arrow:hover{background:rgba(255,255,255,.32);}
+        .hero-arrow-prev{left:18px;}
+        .hero-arrow-next{right:18px;}
+        .hero-dots{
+          position:absolute;
+          left:0;
+          right:0;
+          bottom:26px;
+          z-index:5;
+          display:flex;
+          justify-content:center;
+          gap:9px;
+          }
+        .hero-dot{
+            width:9px;
+            height:9px;
+            border-radius:999px;
+            background:rgba(255,255,255,.45);
+            border:0;padding:0;
+            cursor:pointer;
+            transition:width .25s ease, background .25s ease;
+            }
+        .hero-dot.is-active{width:26px;background:#ffffff;}
+
+
+
+        .hero-visual{position:relative;height:360px;transition:transform .2s ease-out;will-change:transform;}
+        .stack-card{
+          position:absolute;inset:0;border-radius:24px;
+          background:var(--surface-container);
+          border:1px solid var(--outline-variant);
+        }
+        .stack-1{transform:rotate(-7deg) translateY(18px);opacity:.7;}
+        .stack-2{transform:rotate(5deg) translateY(10px);opacity:.85;background:var(--primary-container);}
+        .flip-scene{position:absolute;inset:0;perspective:1400px;}
+        .flip-card{
+           position:relative;
+           width:100%;height:100%;
+           cursor:pointer;
+           transition:transform .7s cubic-bezier(.4,.2,.2,1);
+           transform-style:preserve-3d;
+           }
+        .flip-card.flipped{ transform:rotateY(180deg); }
+        .flip-face{
+            position:absolute;inset:0;backface-visibility:hidden;border-radius:24px;
+            display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+            padding:36px;box-shadow:var(--shadow-lift);
+        }
+        .flip-front{
+               background:#ffffff;
+               border:1px solid var(--outline-variant);
+               }
+        .flip-back{
+               background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+               color:#fff;
+               transform:rotateY(180deg);
+               }
+        .flip-tag{
+               font-size:12px;
+               font-weight:800;
+               letter-spacing:.1em;
+               text-transform:uppercase;
+               color:var(--primary);
+               margin-bottom:14px;
+               }
+        .flip-back .flip-tag{color:rgba(255,255,255,.8);}
+        .flip-q{
+               font-size:21px;
+               font-weight:800;
+               line-height:1.35;
+               color:var(--ink);
+               }
+        .flip-back .flip-q{color:#ffffff;}
+        .flip-hint{
+               position:absolute;
+               bottom:18px;
+               font-size:12px;
+               font-weight:700;
+               color:var(--ink-soft);
+               display:flex;
+               align-items:center;
+               gap:6px;
+               }
+        .flip-back .flip-hint{color:rgba(255,255,255,.75);}
+        .xp-badge{
+                position:absolute; top:-14px; right:18px; z-index:3; background:var(--accent); color:#fff;
+                font-weight:800; font-size:13px; padding:8px 14px; border-radius:999px;
+                box-shadow:0 10px 22px rgba(31,122,108,0.35);
+                display:flex;align-items:center;gap:6px;
+                animation:bob 3s ease-in-out infinite;
+        }
+        @keyframes bob{0%,
+                       100%{transform:translateY(0);}
+                       50%{transform:translateY(-8px);}
+                       }
+
+
+        .reveal{
+                opacity:0;
+                transform:translateY(26px);
+                transition:opacity .6s ease, transform .6s ease;
+                }
+        .reveal.in{
+                opacity:1;transform:translateY(0);
+                }
+
+
+        .features-grid{
+               display:grid;
+               grid-template-columns:repeat(3,1fr);
+               gap:22px;
+               }
+        .feature-card{
+               background:var(--surface-lowest);border:1px solid var(--outline-variant);
+               border-radius:20px;padding:28px;box-shadow:var(--shadow-soft);
+               transition:transform .25s ease, box-shadow .25s ease;
+               }
+        .feature-card:hover{
+               transform:translateY(-6px);
+               box-shadow:var(--shadow-lift);
+               }
+        .feature-icon{
+               width:52px;height:52px;border-radius:14px;background:var(--primary-container);color:var(--on-primary-container);
+               display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+               }
+        .feature-icon .material-symbols-outlined{font-size:28px;}
+        .feature-card h3{
+               margin:0 0 8px;font-size:18px;font-weight:800;
+               }
+        .feature-card p{
+               margin:0;color:var(--ink-soft);font-size:15px;
+               }
+
+
+
+        .how-section{ background:var(--surface-low); }
+        .timeline{
+               position:relative;
+               max-width:760px;
+               margin:0 auto;
+               }
+        .timeline::before{
+               content:"";
+               position:absolute;
+               left:27px;top:14px;bottom:14px;width:2px;
+               background:var(--outline-variant);
+               }
+        .step{
+              position:relative;display:flex;gap:24px;padding:0 0 40px;
+              }
+        .step:last-child{ padding-bottom:0; }
+        .step-num{
+              flex:0 0 56px;height:56px;border-radius:50%;background:var(--primary);color:#fff;
+              display:flex;align-items:center;justify-content:center;font-weight:800;font-size:19px;
+              box-shadow:0 8px 18px rgba(153,71,0,.3);position:relative;z-index:1;
+              }
+        .step-body h3{margin:6px 0 6px;font-size:19px;font-weight:800;}
+        .step-body p{margin:0;color:var(--ink-soft);}
+
+
+
+        .cta-section{
+              background:var(--primary);color:#fff;
+              border-radius:28px;padding:52px 48px;text-align:center;
+              box-shadow:var(--shadow-lift);
+        }
+        .cta-section h2{ margin:0 0 12px; font-size:32px; font-weight:900; }
+        .cta-section p{
+              margin:0 0 28px;
+              font-size:17px;
+              color:rgba(255,255,255,.92);
+              max-width:480px;
+              margin-left:auto;
+              margin-right:auto;
+              }
+
+
+        footer{
+              background:var(--ink); color:#fff;
+              padding:56px 0;
+              }
+        .footer-top{
+             display:grid;
+             grid-template-columns:1fr 3fr;
+             gap:80px;
+             margin-bottom:48px;
+             border-bottom:1px solid rgba(255,255,255,.15);
+             padding-bottom:48px;
+             }
+        .footer-brand{ max-width:280px; }
+        .footer-brand .brand{
+              color:#fff;
+              font-size:19px;
+              margin-bottom:14px;
+              }
+        .footer-brand p{
+              margin:0;
+              color:rgba(255,255,255,.7);
+              font-size:14px;
+              }
+        .footer-cols{
+              display:grid;
+              grid-template-columns:repeat(3,1fr);
+              gap:40px;
+              }
+        .footer-col h5{
+              margin:0 0 16px;
+              font-size:13px;
+              font-weight:800;
+              text-transform:uppercase;
+              letter-spacing:.08em;
+              }
+        .footer-col a{
+              display:block;
+              color:rgba(255,255,255,.8);
+              font-size:14px;
+              margin-bottom:10px;
+              transition:color .2s ease;
+              }
+        .footer-col a:hover{ color:#ffffff; }
+        .footer-bottom{
+             display:flex;
+             justify-content:space-between;
+             align-items:center;
+             font-size:13px;
+             color:rgba(255,255,255,.6);
+             }
+
+
+        @media (max-width:920px){
+             .hero-inner{ grid-template-columns:1fr; gap:28px; }
+             .features-grid{ grid-template-columns:repeat(2,1fr); }
+             .demo-panel{ grid-template-columns:1fr; }
+             .footer-top{ grid-template-columns:1fr; gap:40px; }
+        }
+        @media (max-width:600px){
+           section{ padding:56px 0; }
+          .hero{padding:100px 0 40px;}
+          .hero-inner{padding:0 20px;}
+          .hero h1{font-size:clamp(28px,6vw,40px);}
+          .hero .lead{font-size:15px;}
+          .hero-visual{margin-top:20px;}
+          .features-grid{grid-template-columns:1fr;}
+          .footer-cols{grid-template-columns:1fr;}
+          .cta-section{padding:32px 24px;}
+          .cta-section h2{font-size:24px;}
+          .nav-burger{display:block;}
+          .nav-links{display:none;}
+          .wrap{padding:0 20px;}
+        }
+    </style>
+</head>
+
+<body>
+
+
+<nav class="nav" id="siteNav">
+    <div class="nav-inner">
+        <a href="#top" class="brand"><span class="material-symbols-outlined">school</span>Flip Flash</a>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#how">How it works</a>
+        </div>
+        <div class="nav-actions">
+            <a href="     " id="navLoginBtn" class="btn btn-ghost">Login</a>
+            <a href="     " id="navSignupBtn" class="btn btn-primary">Sign up</a>
+        </div>
+        <button class="nav-burger" id="navBurger" type="button" aria-label="Menu"><span class="material-symbols-outlined">menu</span></button>
+    </div>
+</nav>
+
+
+<section id="top" class="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-scrim"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="hero-inner">
+        <div>
+            <div class="slide-chip" id="heroChip"><span class="material-symbols-outlined">auto_awesome</span>Default · All Subjects</div>
+            <h1>
+                <span id="heroHeadline">Unlock knowledge</span>
+                <span class="accent-text" id="heroAccent" style="color:#ffd9b3;">in seconds.</span>
+            </h1>
+            <p class="lead" id="heroLead">Flip Flash helps you turn every subject into flashcards, organized neatly using Deck → Folder → Set.</p>
+<!--            <div class="hero-actions">-->
+<!--                <a href="" id="heroSignupBtn" class="btn btn-primary btn-lg">Tạo Flashcard miễn phí ngay <span class="material-symbols-outlined">arrow_forward</span></a>-->
+<!--            </div>-->
+            <div class="trust-row">
+                <span><span class="material-symbols-outlined">check_circle</span>Completely Free</span>
+                <span><span class="material-symbols-outlined">check_circle</span>No Credit Card Required</span>
+            </div>
+        </div>
+
+        <div class="hero-visual" id="heroVisual">
+            <div class="xp-badge"><span class="material-symbols-outlined" style="font-size:16px;">bolt</span>+10 XP per Card</div>
+            <div class="stack-card stack-1"></div>
+            <div class="stack-card stack-2"></div>
+            <div class="flip-scene">
+                <div class="flip-card" id="heroCard">
+                    <div class="flip-face flip-front">
+                        <p class="flip-tag">Question</p>
+                        <p class="flip-q" id="heroQ">What is Flip Flash?</p>
+                        <p class="flip-hint"><span class="material-symbols-outlined" style="font-size:16px;">touch_app</span>Tap to Flip</p>
+                    </div>
+                    <div class="flip-face flip-back" id="heroBack">
+                        <p class="flip-tag">Answer</p>
+                        <p class="flip-q" id="heroA">A fast, simple, and completely free way to learn with flashcards.</p>
+                        <p class="flip-hint"><span class="material-symbols-outlined" style="font-size:16px;">touch_app</span>Tap to Flip Back</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="hero-arrow hero-arrow-prev" id="heroPrev" aria-label="Slide trước"><span class="material-symbols-outlined">chevron_left</span></button>
+    <button class="hero-arrow hero-arrow-next" id="heroNext" aria-label="Slide tiếp theo"><span class="material-symbols-outlined">chevron_right</span></button>
+    <div class="hero-dots" id="heroDots"></div>
+    <p id="heroLiveRegion" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);"></p>
+</section>
+
+<section id="features">
+    <div class="wrap">
+        <div class="section-head reveal">
+            <p class="eyebrow">Features</p>
+            <h2>Everything You Need to Learn Effectively</h2>
+            <p>From creating cards to reviewing them, Flip Flash brings the entire flashcard learning experience into one place.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon"><span class="material-symbols-outlined">add_circle</span></div>
+                <h3>Create Flashcards in Seconds</h3>
+                <p>Enter questions and answers instantly — no complicated setup required.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon"><span class="material-symbols-outlined">account_tree</span></div>
+                <h3> Organize Deck – Folder – Set</h3>
+                <p>Organize by subject, chapter, or any topic you choose.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon"><span class="material-symbols-outlined">play_circle</span></div>
+                <h3>Learn Instantly with Study Now</h3>
+                <p>Review an entire Deck, Folder, or Set with a single click.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon"><span class="material-symbols-outlined">add_photo_alternate</span></div>
+                <h3>Add Images to Every Card</h3>
+                <p>Add illustrations or visual hints to improve memory retention.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon"><span class="material-symbols-outlined">workspace_premium</span></div>
+                <h3> Achievements &amp; Scholar Levels</h3>
+                <p>Unlock badges, level up, and track your learning progress.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon"><span class="material-symbols-outlined">block</span></div>
+                <h3> Free and Ad-Free</h3>
+                <p>All features are completely free with no ads or pop-ups.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="how-section" id="how">
+    <div class="wrap">
+        <div class="section-head reveal" style="margin-left:auto;margin-right:auto;text-align:center;">
+            <p class="eyebrow" style="text-align:center;"> How It Works</p>
+            <h2>Get Started in 3 Steps</h2>
+            <p style="margin-left:auto;margin-right:auto;">No lengthy tutorials — create an account and start learning in minutes.</p>
+        </div>
+
+        <div class="timeline">
+            <div class="step reveal">
+                <div class="step-num">01</div>
+                <div class="step-body">
+                    <h3>Create a Free Account</h3>
+                    <p>Sign up with your email. No credit card required.</p>
+                </div>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">02</div>
+                <div class="step-body">
+                    <h3>Create Decks and Add Flashcards</h3>
+                    <p>Organize your cards into Folders and Sets your way.</p>
+                </div>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">03</div>
+                <div class="step-body">
+                    <h3>Press "Study Now" to Review</h3>
+                    <p>Flip cards, track progress, and earn badges as you learn.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="wrap">
+        <div class="section-head reveal">
+            <p class="eyebrow"> Reviews</p>
+            <h2> Users Love Flip Flash</h2>
+            <p>Thousands of students use Flip Flash to study more effectively.</p>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
+            <div class="review-card reveal">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-quote">"Mình dùng Flip Flash để ôn từ vựng tiếng Anh mỗi tối. Giao diện gọn, lật thẻ mượt nên ngồi học lâu cũng không thấy chán."</p>
+                <div class="review-person">
+                    <img src="https://ui-avatars.com/api/?name=Tran+Minh&background=ffdbc8&color=994700" alt="">
+                    <div><strong>Trần Minh</strong><span>Sinh viên năm 2</span></div>
+                </div>
+            </div>
+            <div class="review-card reveal">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-quote">"Sắp xếp theo Deck và Folder giúp mình tách riêng từng môn ôn thi, không bị lẫn thẻ giữa các môn như trước."</p>
+                <div class="review-person">
+                    <img src="https://ui-avatars.com/api/?name=Le+Hoa&background=ffdbc8&color=994700" alt="">
+                    <div><strong>Lê Hoa</strong><span>Học sinh lớp 12</span></div>
+                </div>
+            </div>
+            <div class="review-card reveal">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-quote">"Nút Study Now tiện ở chỗ học hết cả một Deck chỉ với một lần bấm, không phải mở từng bộ thẻ riêng."</p>
+                <div class="review-person">
+                    <img src="https://ui-avatars.com/api/?name=Nguyen+An&background=ffdbc8&color=994700" alt="">
+                    <div><strong>Nguyễn An</strong><span>Tự học ngoại ngữ</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="wrap">
+        <div class="cta-section reveal">
+            <h2> Ready to Learn Smarter?</h2>
+            <p>Create your free account and start your first flashcard deck today.</p>
+            <a href="    " id="finalCtaSignupBtn" class="btn btn-on-dark btn-lg">
+                Create Flashcards for Free <span class="material-symbols-outlined">arrow_forward</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="wrap">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <a class="brand" href="#top"><span class="material-symbols-outlined">school</span>Flip Flash</a>
+                <p> Free flashcards for learning — create, organize, and study in one place.</p>
+            </div>
+            <div class="footer-cols">
+                <div class="footer-col">
+                    <h5>Product</h5>
+                    <a href="#features"> Features</a>
+                    <a href="#how">How It Works</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Account</h5>
+                    <a href="    "> Manage Account</a>
+                    <a href="    "> Login / Sign Up</a>
+                </div>
+                <div class="footer-col">
+                    <h5> More</h5>
+                    <a href="/app/achievements">Achievements</a>
+                    <a href="/app/history">Study History</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span> © 2026 Flip Flash. Learn Faster, Remember Longer.</span>
+            <span> Built for learners, completely ad-free.</span>
+        </div>
+    </div>
+</footer>
+
+<style>
+    .review-card{
+        background:var(--surface-lowest);
+        border:1px solid var(--outline-variant);
+        border-radius:20px;
+        padding:28px;
+        box-shadow:var(--shadow-soft);
+    }
+    .review-stars{
+                  font-size:16px;
+                  margin-bottom:14px;
+                  letter-spacing:2px;
+                  }
+    .review-quote{
+                  margin:0 0 18px;
+                  color:var(--ink-soft);
+                  font-size:15px;
+                  font-style:italic;
+                  }
+    .review-person{
+                   display:flex;
+                   gap:12px;
+                   align-items:center;}
+    .review-person img{
+                   width:48px;
+                   height:48px;
+                   border-radius:50%;
+                   }
+    .review-person strong{
+                   display:block;
+                   font-size:14px;
+                   margin-bottom:2px;
+                   }
+    .review-person span{
+                   font-size:12px;
+                   color:var(--ink-soft);
+                   }
+</style>
+
+<script src="./js/landing-logic.js"></script>
+</body>
+</html>
