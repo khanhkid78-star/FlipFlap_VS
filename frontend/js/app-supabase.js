@@ -35,9 +35,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     currentSession = await getSessionOrNull();
 
     if (!currentSession) {
-      showAuthModal();
-      return;
+  const page = getCurrentPage();
+  const authMode = getParam("auth");
+
+  if ((page === "index.html" || page === "") && !authMode) {
+    window.location.replace("landing.html");
+    return;
+  }
+
+  showAuthModal();
+
+  requestAnimationFrame(() => {
+    if (authMode === "signup") {
+      document.getElementById("showSignupTab")?.click();
+    } else {
+      document.getElementById("showLoginTab")?.click();
     }
+  });
+
+  return;
+}
 
     currentUser = currentSession.user;
 
