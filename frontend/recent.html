@@ -15,7 +15,7 @@
       document.documentElement.classList.toggle("light", theme !== "dark");
     })();
   </script>
-  
+
   <link rel="stylesheet" href="./css/flipflash-ui.css"/>
 </head>
 
@@ -124,47 +124,102 @@
     </a>
   </nav>
 
-  <div id="authModal" class="ff-modal hidden">
-    <div class="ff-modal-panel ff-modal-wide">
-      <div class="ff-modal-head">
-        <div>
-          <h3>Welcome to Flip Flash</h3>
-          <p>Sign in or create an account to continue.</p>
+    <div id="authModal" class="ff-modal hidden">
+    <div class="ff-modal-panel ff-auth-panel">
+      <div class="ff-auth-hero">
+        <div class="ff-auth-brand">
+          <span class="material-symbols-outlined">school</span>
+          <span>Flip Flash</span>
         </div>
       </div>
 
-      <div class="ff-grid-2">
+      <div class="ff-auth-tabs" role="tablist" aria-label="Authentication tabs">
+        <button
+          id="showLoginTab"
+          class="active"
+          type="button"
+          role="tab"
+          aria-selected="true"
+          aria-controls="loginPanel">
+          Sign In
+        </button>
+
+        <button
+          id="showSignupTab"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="signupPanel">
+          Sign Up
+        </button>
+      </div>
+
+      <div
+        id="loginPanel"
+        class="ff-auth-panel-body"
+        role="tabpanel"
+        aria-labelledby="showLoginTab">
+
         <form id="loginForm">
-          <h3>Sign In</h3>
           <div class="ff-field">
             <label>Email</label>
-            <input id="loginEmail" type="email" required/>
+            <input
+              id="loginEmail"
+              type="email"
+              required
+              placeholder="you@example.com"/>
           </div>
+
           <div class="ff-field">
             <label>Password</label>
-            <input id="loginPassword" type="password" required/>
+            <input
+              id="loginPassword"
+              type="password"
+              required
+              placeholder="Enter your password"/>
           </div>
+
           <button class="ff-btn ff-btn-primary" type="submit" style="width:100%;">
             Sign In
           </button>
         </form>
+      </div>
+
+      <div
+        id="signupPanel"
+        class="ff-auth-panel-body hidden"
+        role="tabpanel"
+        aria-labelledby="showSignupTab">
 
         <form id="signupForm">
-          <h3>Create Account</h3>
           <div class="ff-field">
             <label>Username</label>
-            <input id="signupUsername" type="text"/>
+            <input
+              id="signupUsername"
+              type="text"
+              placeholder="Your display name"/>
           </div>
+
           <div class="ff-field">
             <label>Email</label>
-            <input id="signupEmail" type="email" required/>
+            <input
+              id="signupEmail"
+              type="email"
+              required
+              placeholder="you@example.com"/>
           </div>
+
           <div class="ff-field">
             <label>Password</label>
-            <input id="signupPassword" type="password" required/>
+            <input
+              id="signupPassword"
+              type="password"
+              required
+              placeholder="Create a password"/>
           </div>
-          <button class="ff-btn ff-btn-tonal" type="submit" style="width:100%;">
-            Create Account
+
+          <button class="ff-btn ff-btn-primary" type="submit" style="width:100%;">
+            Sign Up
           </button>
         </form>
       </div>
