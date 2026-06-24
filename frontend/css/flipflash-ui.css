@@ -177,7 +177,7 @@ a {
 }
 
 .ff-search-clear:hover {
-  background: var(--surface-container-high);
+  background: var(--surface-container);
   color: var(--primary);
 }
 
@@ -908,44 +908,6 @@ body.ff-page-leaving {
   overflow: hidden;
 }
 
-.ff-folder-header {
-  width: 100%;
-  border: 0;
-  background: var(--surface-lowest);
-  padding: 22px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  text-align: left;
-  cursor: pointer;
-}
-
-.ff-folder-header:hover {
-  background: var(--surface-low);
-}
-
-.ff-folder-title-wrap {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.ff-folder-title-wrap .material-symbols-outlined {
-  color: var(--primary);
-  font-size: 30px;
-}
-
-.ff-folder-title {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 800;
-}
-
-.ff-folder-sub {
-  margin: 3px 0 0;
-  color: var(--on-surface-variant);
-}
 
 .ff-folder-body {
   border-top: 1px solid var(--outline-variant);
@@ -1503,34 +1465,6 @@ body.ff-page-leaving {
   border: 1px solid var(--outline-variant);
 }
 
-.ff-folder-actions {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.ff-folder-actions button {
-  width: 36px;
-  height: 36px;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--on-surface-variant);
-}
-
-.ff-folder-actions button:hover {
-  background: var(--surface-container);
-  color: var(--primary);
-}
-
-.ff-folder-actions button.danger:hover {
-  background: #ffdad6;
-  color: var(--error);
-}
-
 
 .ff-study-image-wrap {
   width: min(520px, 100%);
@@ -1757,66 +1691,6 @@ body.ff-page-leaving {
   color: var(--on-surface-variant);
 }
 
-/* ============================================================
-   FOLDER HEADER ACTION FIX
-============================================================ */
-
-.ff-folder-header {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 18px;
-}
-
-.ff-folder-right {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 14px;
-  white-space: nowrap;
-}
-
-.ff-folder-count {
-  color: var(--on-surface-variant);
-  font-weight: 900;
-}
-
-.ff-folder-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.ff-folder-actions button {
-  width: 34px;
-  height: 34px;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--primary);
-  transition:
-    background 0.16s ease,
-    color 0.16s ease,
-    transform 0.16s ease;
-}
-
-.ff-folder-actions button:hover {
-  background: var(--surface-container);
-  transform: translateY(-1px);
-}
-
-.ff-folder-actions button.danger:hover {
-  background: #ffdad6;
-  color: var(--error);
-}
-
-.ff-folder-actions .material-symbols-outlined,
-.ff-folder-right > .material-symbols-outlined {
-  font-size: 22px;
-}
 
 /* ============================================================
    LOADING / PERCEIVED SPEED
@@ -1862,15 +1736,6 @@ body.ff-page-leaving {
   .ff-recent-score {
     grid-column: 2;
     text-align: left;
-  }
-
-  .ff-folder-header {
-    grid-template-columns: 1fr;
-  }
-
-  .ff-folder-right {
-    justify-content: flex-start;
-    flex-wrap: wrap;
   }
 }
 
@@ -2044,72 +1909,9 @@ body.ff-page-leaving {
 }
 
 
-.ff-auth-tabs{
-  display:flex;
-  gap:8px;
-  margin-bottom:20px;
-}
-
-.ff-auth-tabs button{
-  flex:1;
-  border:none;
-  border-radius:14px;
-  padding:12px;
-  font-weight:700;
-  background: #f7e4d8;
-  color:var(--on-surface);
-}
-
-.ff-auth-tabs button.active{
-  background: var(--primary);
-  color: #fff;
-
-  box-shadow:
-    0 4px 12px rgba(153,71,0,.18),
-    inset 0 1px 0 rgba(255,255,255,.15);
-
-  transform: translateY(-1px);
-}
-
-.ff-auth-tabs button{
-  transition:
-    background .2s ease,
-    color .2s ease,
-    transform .2s ease,
-    box-shadow .2s ease;
-}
-
-.ff-auth-tabs button:hover{
-  transform: translateY(-1px);
-}
-
-.ff-auth-card{
-  width:100%;
-  max-width:420px;
-  margin:auto;
-}
-
 /* ============================================================
-   AUTH MODAL COMPACT
+   AUTH BRAND
 ============================================================ */
-
-.ff-auth-panel{
-  max-width:520px;
-  padding:0;
-  overflow:hidden;
-}
-
-.ff-auth-hero{
-  padding:16px 24px;
-  border-bottom:1px solid var(--outline-variant);
-  background:
-    radial-gradient(
-      circle at top right,
-      var(--primary-container),
-      transparent 58%
-    ),
-    var(--surface-lowest);
-}
 
 .ff-auth-brand{
   display:flex;
@@ -2125,9 +1927,6 @@ body.ff-page-leaving {
   font-size:28px;
 }
 
-.ff-auth-panel-body{
-  padding:20px 24px 24px;
-}
 
 
 .ff-inline-add-area {
@@ -2212,23 +2011,6 @@ body.ff-page-leaving {
   background: #fff1ea;
 }
 
-.ff-new-card-upload .material-symbols-outlined {
-  font-size: 36px;
-  color: var(--primary);
-}
-
-.ff-new-card-upload small {
-  color: var(--on-surface-variant);
-}
-
-.ff-new-card-preview {
-  margin-top: 14px;
-  width: 100%;
-  max-height: 220px;
-  object-fit: cover;
-  border-radius: 18px;
-  border: 1px solid var(--outline-variant);
-}
 
 .ff-new-card-image-wrap {
   position: relative;
@@ -2533,3 +2315,42 @@ html.dark .ff-add-card-circle:hover {
         padding: 22px;
       }
     }
+
+html.dark .ff-auth-tabs button.active,
+html.dark .ff-auth-tabs button.active .material-symbols-outlined {
+  color: #3b1800 !important;
+  font-weight: 900;
+}
+
+html.dark .ff-achievement-card.is-unlocked .ff-achievement-icon,
+html.dark .ff-achievement-card.is-unlocked .ff-achievement-icon .material-symbols-outlined {
+  color: #3b1800 !important;
+}
+
+html.dark .ff-btn-success,
+html.dark .ff-btn-success .material-symbols-outlined {
+  color: #053d1f !important;
+}
+
+html.dark .ff-btn-danger,
+html.dark .ff-btn-danger .material-symbols-outlined {
+  color: #5f1410 !important;
+}
+
+/* DASHBOARD - center View all decks card */
+
+.ff-view-all-decks-card {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(460px, 100%);
+  margin-top: 8px;
+}
+
+html.dark .ff-view-all-decks-card .material-symbols-outlined {
+  color: #ffb783 !important;
+}
+
+html.dark .ff-view-all-decks-card .ff-btn-primary,
+html.dark .ff-view-all-decks-card .ff-btn-primary .material-symbols-outlined {
+  color: #3b1800 !important;
+}

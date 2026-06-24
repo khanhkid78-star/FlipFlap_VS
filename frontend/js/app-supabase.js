@@ -1108,7 +1108,7 @@ function renderDecks(decks, options = {}) {
 
   if (mode === "dashboard" && totalDecks > decks.length) {
     const viewAll = document.createElement("article");
-    viewAll.className = "ff-card ff-card-lift";
+    viewAll.className = "ff-card ff-card-lift ff-view-all-decks-card";
     viewAll.style.display = "flex";
     viewAll.style.flexDirection = "column";
     viewAll.style.alignItems = "center";
