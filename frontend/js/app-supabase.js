@@ -1363,7 +1363,7 @@ async function initDeckDetails() {
       const description = document.getElementById("folderDesc")?.value?.trim() || "";
 
       if (!name) {
-        showToast("Vui lòng nhập tên folder.", "error");
+        showToast("Please enter a folder name.", "error");
         return;
       }
 
